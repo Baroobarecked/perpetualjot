@@ -22,5 +22,21 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
     return res.json(newNotebook);
 }));
 
+router.put('/', requireAuth, asyncHandler(async (req, res) => {
+
+    const { title, notebookId } = req.body;
+    // console.log(userId)
+
+    // console.log(title, userId);
+    const notebook = await Notebook.findByPk(notebookId);
+
+    const updated = await notebook.update({
+        title,
+    })
+
+    return res.json(updated);
+
+}));
+
 
 module.exports = router;
