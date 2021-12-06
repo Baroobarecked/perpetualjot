@@ -7,7 +7,7 @@ export function restoreCSRF() {
 export async function csrfFetch(url, options = {}) {
   // set options.method to 'GET' if there is no method
 //   url = 'http://localhost:5000/api/session';
-  //console.log(url, options);
+  // console.log(url, options);
   options.method = options.method || 'GET';
   // set options.headers to an empty object if there is no headers
   options.headers = options.headers || {};
@@ -22,9 +22,9 @@ export async function csrfFetch(url, options = {}) {
   }
   // call the default window's fetch with the url and the options passed in
 //   //console.log(options)
-//console.log(options)
+  console.log(options)
   const res = await window.fetch(url, options);
-//   //console.log(res)
+  console.log(res)
 
   // if the response status code is 400 or above, then throw an error with the
     // error being the response

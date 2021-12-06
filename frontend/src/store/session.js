@@ -34,6 +34,7 @@ export const signup = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
+    console.log(data);
     dispatch(addSession(data.user));
     return response;
   };
