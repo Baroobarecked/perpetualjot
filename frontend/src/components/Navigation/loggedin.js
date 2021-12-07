@@ -19,7 +19,7 @@ function LoggedIn ({user}) {
     
     return (
         <div className='main_nav'>
-            <div>
+            <div className='profile'>
                 <ProfileButton user={user} />
             </div>
             <div>
@@ -27,18 +27,18 @@ function LoggedIn ({user}) {
                     <option>New</option>
                 </select>
             </div>
-            <div>
+            <div className='search'>
                 <label htmlFor='search'>Search</label>
                 <input type='text' name='search'></input>
             </div>
-            <div>
+            <div className='home'>
                 <NavLink exact to="/">Home</NavLink>
             </div>
             <div className='toggle'>
                 <button onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
                 {notebookToggle && notebookList.map(notebook => {
                     return (
-                        <button key={notebook.title} value={notebook}>{notebook.title}</button>
+                        <button className='notebooks' key={notebook.title} value={notebook}>{notebook.title}</button>
                     )
                 })}
             </div>

@@ -42,6 +42,7 @@ export const signup = (user) => async (dispatch) => {
 export const restoreUser = () => async dispatch => {
     const response = await csrfFetch('/api/session');
     const data = await response.json();
+    console.log(data);
     dispatch(addSession(data.user));
     return response;
 };
@@ -52,14 +53,15 @@ export const addUserSession = (credentials) => async dispatch => {
     const res = await csrfFetch('/api/session/', { method: 'POST', body: JSON.stringify({credential, password}) });
     //console.log(res)
     const user = await res.json();
-    //console.log(user);
-    dispatch(addSession(user));
-    return user;
+    console.log(user);
+    const result = await dispatch(addSession(user.user));
+    return result;
 }
 
-const sessionReducer = (state = { user: null }, action) => {
+const sessionReducer = (state =  { user: null } , action) => {
     switch (action.type) {
         case ADD_SESSION:
+            console.log(action.user)
             return {
                 ...state,
                 user: action.user,

@@ -1,45 +1,58 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Redirect } from "react-router";
-import { addUserSession } from "../../store/session";
+import { Redirect } from 'react-router-dom';
 
 import './LoginForm.css';
 
-const LoginFormPage = () => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const sessionUser = useSelector((state) => state.session.user);
+function LoginFormPage() {
+  const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
+  const [credential, setCredential] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
 
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+  console.log(sessionUser);
+  if (sessionUser) return (
+    <Redirect to="/" />
+  );
 
-    if (sessionUser) return <Redirect to="/" />;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors([]);
+    return dispatch(sessionActions.addUserSession({ credential, password }))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
+  }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const credentials = {
-            credential: userName,
-            password,
-        }
-        const res = await dispatch(addUserSession(credentials));
-        // //console.log(res);
-        setPassword('');
-        if(res.user) {
-            history.push('/')
-        } else {
-        }
-    }
-
-
-    return (
-        <form>
-            <label htmlFor='user'>Username or Email</label>
-            <input type='text' name='user' value={userName} onChange={e => setUserName(e.target.value)}></input>
-            <label htmlFor='password'>Password</label>
-            <input type='text' name='password' value={password} onChange={e => setPassword(e.target.value)}></input>
-            <button onClick={handleSubmit}>Login</button>
-        </form>
-    );
-};
+  return (
+    <form onSubmit={handleSubmit} className='loginform'>
+      <ul>
+        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+      </ul>
+      <label>
+        Username or Email
+        <input
+          type="text"
+          value={credential}
+          onChange={(e) => setCredential(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Password
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </label>
+      <button type="submit">Log In</button>
+    </form>
+  );
+}
 
 export default LoginFormPage;
