@@ -8,9 +8,18 @@
     width: 300px;
     font-size: 20px;
     font-weight: bold;
-    height: 100%;
-    min-height: 100vh;
+    overflow-y: scroll;
+    height: 100vh;
     padding: 20px;
+}
+
+.notesnavmain::-webkit-scrollbar { /* chrome */
+    display: none;
+}
+
+.notesnavmain {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .notecard button{

@@ -7,6 +7,12 @@ html, body {
 div.body {
     display: flex;
     float: left;
+    min-height: 100vh;
+    height: 100%;
+}
+
+div.body ul {
+    min-height: 100vh;
 }
 
 ul, li {

@@ -14,9 +14,18 @@
     box-shadow: 1px 0px 10px black;
     font-size: 20px;
     font-weight: bold;
-    height: 100%;
-    min-height: 100vh;
+    height: 100vh;
     padding: 20px;
+    overflow-y: scroll;
+}
+
+.main_nav::-webkit-scrollbar { /* chrome */
+    display: none;
+}
+
+.main_nav {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 div, a, button, .profile, .profile .email, .profile .logout {

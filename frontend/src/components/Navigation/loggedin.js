@@ -13,7 +13,7 @@ function LoggedIn ({user}) {
     console.log(user);
     const dispatch = useDispatch();
 
-    const [globalNotebookId, setGlobalNotebookId] = useState(null);
+    const [globalNotebook, setGlobalNotebook] = useState(null);
 
     const notebooks = useSelector(state => state.notebooks);
     const [notebookToggle, setNotebookToggle] = useState(false);
@@ -40,7 +40,7 @@ function LoggedIn ({user}) {
             <div>
                 <button onClick={() => dispatch(noteActions.addNewNote({
                     userId: user.id, 
-                    notebookId: globalNotebookId,
+                    notebookId: globalNotebook.id,
                     title: 'Untitled',
                 }))}>Add Note</button>
                 <AddNotebookModal user={user}/>
@@ -72,7 +72,7 @@ function LoggedIn ({user}) {
                         <button className='notebooks' key={notebook.title} value={notebook} 
                         onClick={() => {
                             console.log(notebook);
-                            setGlobalNotebookId(notebook.id);
+                            setGlobalNotebook(notebook);
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id))
                         }}>{notebook.title}</button>
                     )

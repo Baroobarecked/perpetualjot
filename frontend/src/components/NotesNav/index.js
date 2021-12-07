@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import './NotesNav.css';
 
 function NotesNav () {
-    const [focus, setFocus] = useState(false);
     const notes = useSelector(state => state.notes);
 
     let noteList =[];
