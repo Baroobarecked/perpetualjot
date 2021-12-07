@@ -23,6 +23,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
 router.put('/', requireAuth, asyncHandler(async (req, res) => {
 
     const { title, notebookId } = req.body;
+    console.log(req.body)
 
     const notebook = await Notebook.findByPk(notebookId);
 

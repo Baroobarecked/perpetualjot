@@ -51,7 +51,7 @@ export const addNewNote = note => async (dispatch) => {
 };
 
 export const editNote = note => async (dispatch) => {
-    const { title, noteId, content } = note;
+    const { title, noteId, content, notebookId } = note;
 
     const res = await csrfFetch(`/api/notes`, {
         method: 'PUT',
@@ -59,6 +59,7 @@ export const editNote = note => async (dispatch) => {
             noteId,
             title,
             content,
+            notebookId,
         })
     });
 

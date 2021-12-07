@@ -10,6 +10,7 @@ function Notes() {
     const dispatch = useDispatch();
     const [noteTitle, setNoteTitle] = useState('Untitled');
     const [noteContent, setNoteContent] = useState('');
+    const [notebookTitle, setNotebookTitle] = useState(null);
 
     const globalNote = useSelector(state => state.globalNote);
     const globalNotebook = useSelector(state => state.globalNotebook);
@@ -31,25 +32,49 @@ function Notes() {
         }
     }, [globalNote])
 
-    useEffect(() => {
+    function submit() {
         if(globalNote) {
-            dispatch(noteActions.editNote({
-                title: noteTitle,
-                content: noteContent,
-                noteId: globalNote.id,
-                notebookId: globalNote.notebookId,
+            if(globalNotebook) {
+                dispatch(noteActions.editNote({
+                    title: noteTitle,
+                    content: noteContent,
+                    noteId: globalNote.id,
+                    notebookId: globalNotebook.id,
+                }));
+            }
+        }
+    }
+
+    useEffect(() => {
+        if(globalNotebook) {
+            setNotebookTitle(globalNotebook.title);
+        }
+    }, [globalNotebook])
+
+    useEffect(() => {
+        if(globalNotebook) {
+            dispatch(notebookActions.editNotebook({
+                title: notebookTitle,
+                notebookId: globalNotebook.id,
             }));
         }
-    }, [dispatch, noteTitle, noteContent])
+    }, [dispatch, notebookTitle])
 
-    const notebookTitle = () => {
+    const changeNotebookTitle = () => {
         return (
-            <h2>{globalNotebook.title}</h2>
+            <div>
+                <div className='notebook_title'>
+                    <label>
+                        title
+                        <input type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
+                    </label>
+                </div>
+            </div>
         )
     }
     return (
         <div className='notesmain'>
-            {globalNotebook && notebookTitle()}
+            {globalNotebook && changeNotebookTitle()}
             <div className='note_title'>
                 <label>
                     title
@@ -59,6 +84,7 @@ function Notes() {
             <div className='textarea'>
                 <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)}></textarea>
             </div>
+            <button onClick={submit}>Submit</button>
         </div>
     )
 
