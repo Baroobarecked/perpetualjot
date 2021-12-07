@@ -68,6 +68,7 @@ function Notes() {
                         title
                         <input type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
                     </label>
+                    <button onClick={() => {dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}))}}>delete</button>
                 </div>
             </div>
         )
