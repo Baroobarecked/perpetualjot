@@ -3,11 +3,15 @@ import thunk from 'redux-thunk';
 import session from './session';
 import notes from './notes';
 import notebooks from './notebooks';
+import globalNote from './globalNote';
+import globalNotebook from './globalNotebook';
 
 const rootReducer = combineReducers({
     session,
     notes,
     notebooks,
+    globalNote,
+    globalNotebook,
 });
 
 let enhancer;

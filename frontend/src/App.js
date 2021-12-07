@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import * as sessionActions from "./store/session";
 import NotesNav from "./components/NotesNav";
 import HomePage from "./components/HomePage";
+import Notes from "./components/Notes";
 
 
 function App() {
@@ -22,7 +23,12 @@ function App() {
     <div className='body'>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
-        sessionUser && <NotesNav isLoaded={isLoaded} />
+        sessionUser && (
+          <>
+            <NotesNav isLoaded={isLoaded} />
+            <Notes />
+          </>
+        )
       )}
       {isLoaded && (
         !sessionUser && <HomePage />

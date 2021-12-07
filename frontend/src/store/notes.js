@@ -63,7 +63,7 @@ export const editNote = note => async (dispatch) => {
     });
 
     const updatedNote = await res.json();
-    console.log(updatedNote)
+    // console.log(updatedNote)
 
     if(updatedNote) {
         const result = await dispatch(addNote(updatedNote));

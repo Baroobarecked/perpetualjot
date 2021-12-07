@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import * as globalNoteActions from "../../store/globalNote";
 
 import './NotesNav.css';
 
 function NotesNav () {
     const notes = useSelector(state => state.notes);
+    const dispatch = useDispatch();
 
     let noteList =[];
 
@@ -20,7 +22,7 @@ function NotesNav () {
             {noteList.map(note => {
                 return (
                     <div key={note.id} className='notecard'>
-                        <button>{note.title}</button>
+                        <button onClick={() => {dispatch(globalNoteActions.setNewGlobalNote(note))}}>{note.title}</button>
                     </div>
                 )
             })}

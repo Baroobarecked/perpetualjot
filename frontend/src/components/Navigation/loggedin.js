@@ -4,13 +4,14 @@ import { NavLink } from 'react-router-dom';
 
 import * as noteActions from "../../store/notes";
 import * as notebookActions from "../../store/notebooks";
+import * as globalNotebookActions from "../../store/globalNotebook";
 import ProfileButton from './ProfileButton';
 
 import './loggedin.css';
 import AddNotebookModal from '../AddNotebookModal';
 
 function LoggedIn ({user}) {
-    console.log(user);
+    // console.log(user);
     const dispatch = useDispatch();
 
     const [globalNotebook, setGlobalNotebook] = useState(null);
@@ -67,11 +68,12 @@ function LoggedIn ({user}) {
             <div className='toggle'>
                 <button onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
                 {notebookToggle && notebookList.map(notebook => {
-                    console.log(notebook)
+                    // console.log(notebook)
                     return (
                         <button className='notebooks' key={notebook.title} value={notebook} 
                         onClick={() => {
                             console.log(notebook);
+                            dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             setGlobalNotebook(notebook);
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id))
                         }}>{notebook.title}</button>
