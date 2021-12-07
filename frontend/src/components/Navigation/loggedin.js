@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import * as noteActions from "../../store/notes";
+import * as notebookActions from "../../store/notebooks";
 import ProfileButton from './ProfileButton';
 
 import './loggedin.css';
+import AddNotebookModal from '../AddNotebookModal';
 
 function LoggedIn ({user}) {
+    console.log(user);
     const dispatch = useDispatch();
+
+    const [globalNotebookId, setGlobalNotebookId] = useState(null);
 
     const notebooks = useSelector(state => state.notebooks);
     const [notebookToggle, setNotebookToggle] = useState(false);
@@ -21,13 +26,26 @@ function LoggedIn ({user}) {
     }
 
     const notes = useSelector(state => state.notes);
-    const [noteToggle, setNoteToggle] = useState(false);
     let noteList =[];
-
+    
     if(notes) {
         for(let noteId in notes) {
             noteList.push(notes[noteId])
         }
+    }
+    const [addToggle, setAddToggle] = useState(false);
+
+    const content = () => {
+        return (
+            <div>
+                <button onClick={() => dispatch(noteActions.addNewNote({
+                    userId: user.id, 
+                    notebookId: globalNotebookId,
+                    title: 'Untitled',
+                }))}>Add Note</button>
+                <AddNotebookModal user={user}/>
+            </div>
+        )
     }
     
     return (
@@ -36,9 +54,8 @@ function LoggedIn ({user}) {
                 <ProfileButton user={user} />
             </div>
             <div>
-                <select>
-                    <option>New</option>
-                </select>
+                <button className='select' onClick={() => setAddToggle(!addToggle)}>New</button>
+                {addToggle && content()}
             </div>
             <div className='search'>
                 <label htmlFor='search'>Search</label>
@@ -55,6 +72,7 @@ function LoggedIn ({user}) {
                         <button className='notebooks' key={notebook.title} value={notebook} 
                         onClick={() => {
                             console.log(notebook);
+                            setGlobalNotebookId(notebook.id);
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id))
                         }}>{notebook.title}</button>
                     )

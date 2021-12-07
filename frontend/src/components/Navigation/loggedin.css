@@ -76,7 +76,7 @@ button:hover, a:hover {
     padding-left: 15px;
 }
 
-select {
+.select {
     font-size: 20px;
     font-weight: bold;
     width: 100%;
@@ -87,7 +87,7 @@ select {
     border: none;
 }
 
-select:focus {
+.select:hover {
     outline-color: rgb(187, 103, 0);
 }
 
