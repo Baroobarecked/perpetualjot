@@ -1,0 +1,35 @@
+.main_nav, a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(37, 37, 37);
+    color: white;
+}
+
+.main_nav {
+    height: 100%;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+div {
+    width: 300px;
+    display: flex;
+    justify-content: left;
+}
+
+.toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+button {
+    background: none;
+    color: white;
+    border: none;
+}

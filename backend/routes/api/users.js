@@ -48,10 +48,6 @@ router.post(
 router.get('/:userId/notebooks/', requireAuth, asyncHandler(async (req, res) => {
   const {userId} = req.params
 
-  console.log(req.params)
-
-  console.log(userId)
-
   const notebooks = await Notebook.findAll({
       where: {
           userId

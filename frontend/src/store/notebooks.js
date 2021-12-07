@@ -5,6 +5,7 @@ const ADD_NOTEBOOK = 'notebooks/ADD_NOTEBOOK';
 const GET_NOTEBOOKS = 'notebooks/GET_NOTEBOOKS'
 // const EDIT_NOTEBOOK = 'notebooks/EDIT_NOTEBOOK';
 const DELETE_NOTEBOOK = 'notebooks/DELETE_NOTEBOOK';
+
 //action creators
 const addNotebook = (notebook) => ({
     type: ADD_NOTEBOOK,
@@ -69,7 +70,12 @@ export const editNotebook = notebook => async (dispatch) => {
 };
 
 export const deleteOldNotebook = (notebookId) => async dispatch => {
-
+    await csrfFetch('/api/notebooks', {
+        method: 'DELETE',
+        body: JSON.stringify(notebookId),
+    });
+    console.log(notebookId)
+    await dispatch(deleteNotebook(notebookId));
 };
 
 export const getNotebookArray = (userId) => async dispatch => {
@@ -94,6 +100,11 @@ const notebookReducer = (state = null, action) => {
             const key = action.notebook.id;
             newState[key] = action.notebook;
             newState = { ...state, ...newState };
+            return newState;
+        case DELETE_NOTEBOOK:
+            const deletekey = action.notebookId.notebookId;
+            newState = { ...state };
+            delete newState[deletekey];
             return newState;
         default:
             return state;

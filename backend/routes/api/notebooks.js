@@ -11,9 +11,7 @@ const router = express.Router();
 router.post('/', requireAuth, asyncHandler(async (req, res) => {
 
     const { title, userId } = req.body;
-    console.log(userId)
 
-    console.log(title, userId);
     const newNotebook = await Notebook.create({
         title,
         userId
@@ -25,9 +23,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
 router.put('/', requireAuth, asyncHandler(async (req, res) => {
 
     const { title, notebookId } = req.body;
-    // console.log(userId)
 
-    // console.log(title, userId);
     const notebook = await Notebook.findByPk(notebookId);
 
     const updated = await notebook.update({
@@ -37,6 +33,16 @@ router.put('/', requireAuth, asyncHandler(async (req, res) => {
     return res.json(updated);
 
 }));
+
+router.delete('/', requireAuth, asyncHandler(async (req, res) => {
+    const { notebookId } = req.body;
+
+    const notebook = await Notebook.findByPk(notebookId);
+
+    notebook.destroy();
+
+    return res.json({});
+}))
 
 
 module.exports = router;
