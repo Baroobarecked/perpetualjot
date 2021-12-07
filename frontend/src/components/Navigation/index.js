@@ -1,8 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // import ProfileButton from './ProfileButton';
 import * as notebookActions from "../../store/notebooks";
+import * as noteActions from "../../store/notes";
 import './Navigation.css';
 import LoggedIn from './loggedin';
 import LoggedOut from './loggedout';
@@ -16,6 +17,7 @@ function Navigation({ isLoaded }){
   if (sessionUser && isLoaded) {
     // console.log(sessionUser.id)
     dispatch(notebookActions.getNotebookArray(sessionUser.id));
+    dispatch(noteActions.getNoteArray(sessionUser.id));
     sessionPage = (
       // <ProfileButton user={sessionUser} />
       <LoggedIn user={sessionUser} />

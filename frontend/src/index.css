@@ -4,6 +4,11 @@ html, body {
     padding: 0px;
 }
 
+div.body {
+    display: flex;
+    float: left;
+}
+
 ul, li {
     list-style: none;
     padding: 0px;

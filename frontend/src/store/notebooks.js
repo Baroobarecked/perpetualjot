@@ -87,6 +87,7 @@ export const getNotebookArray = (userId) => async dispatch => {
     return result;
 };
 
+
 const notebookReducer = (state = null, action) => {
     let newState = {};
     switch (action.type) {

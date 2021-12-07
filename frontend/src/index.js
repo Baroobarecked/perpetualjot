@@ -12,6 +12,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import configureStore from './store';
 import * as sessionActions from './store/session';
 import * as notebookActions from './store/notebooks';
+import * as noteActions from './store/notes';
 
 const store = configureStore();
 //console.log(sessionActions)
@@ -21,7 +22,8 @@ if (process.env.NODE_ENV !== 'production') {
   window.csrfFetch = csrfFetch;
   window.store = store;
   window.sessionActions = sessionActions;
-  window.notebookAction = notebookActions;
+  window.notebookActions = notebookActions;
+  window.noteActions = noteActions;
 }
 
 function Root() {

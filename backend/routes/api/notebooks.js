@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 
 const { requireAuth } = require('../../utils/auth');
-const { Notebook } = require('../../db/models');
+const { Notebook, Note } = require('../../db/models');
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 
@@ -42,7 +42,19 @@ router.delete('/', requireAuth, asyncHandler(async (req, res) => {
     notebook.destroy();
 
     return res.json({});
-}))
+}));
+
+router.get('/:notebookId/notes/', requireAuth, asyncHandler(async (req, res) => {
+    const {notebookId} = req.params
+  
+    const note = await Note.findAll({
+        where: {
+            notebookId
+        }
+    });
+  
+    return res.json(note);
+}));
 
 
 module.exports = router;

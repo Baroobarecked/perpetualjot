@@ -18,12 +18,12 @@ function App() {
 
   const sessionUser = useSelector(state => state.session.user);
 
-  
-
   return (
-    <>
+    <div className='body'>
       <Navigation isLoaded={isLoaded} />
-      {/* <NotesNav isLoaded={isLoaded} /> */}
+      {isLoaded && (
+        sessionUser && <NotesNav isLoaded={isLoaded} />
+      )}
       {isLoaded && (
         !sessionUser && <HomePage />
       )}
@@ -37,7 +37,7 @@ function App() {
         //   </Route>
         // </Switch>
       )} */}
-    </>
+    </div>
   );
 }
 
