@@ -1,0 +1,23 @@
+.loggedoutmain {
+    background-color: rgb(37, 37, 37);
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    width: 100vw;
+    justify-content: space-between;
+    box-shadow: 0px 1px 10px black;
+}
+
+.links {
+    display: flex;
+    width: 300px;
+}
+
+.links button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}

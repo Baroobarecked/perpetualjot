@@ -1,1 +1,22 @@
 /* TODO Add site wide styles */
+html, body {
+    margin: 0px;
+    padding: 0px;
+}
+
+div.body {
+    display: flex;
+    float: left;
+    min-height: 100vh;
+    height: 100%;
+}
+
+div.body ul {
+    min-height: 100vh;
+}
+
+ul, li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}

@@ -6,30 +6,34 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { ModalProvider } from "./context/Modal";
 
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import configureStore from './store';
 import * as sessionActions from './store/session';
-// import { useDispatch } from 'react-redux';
-
+import * as notebookActions from './store/notebooks';
+import * as noteActions from './store/notes';
 
 const store = configureStore();
 //console.log(sessionActions)
 if (process.env.NODE_ENV !== 'production') {
-  // const dispatch = useDispatch();
   restoreCSRF();
 
   window.csrfFetch = csrfFetch;
   window.store = store;
   window.sessionActions = sessionActions;
+  window.notebookActions = notebookActions;
+  window.noteActions = noteActions;
 }
 
 function Root() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ModalProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ModalProvider>
     </Provider>
   );
 }

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import Navigation from "./components/Navigation";
 import * as sessionActions from "./store/session";
+import NotesNav from "./components/NotesNav";
+import HomePage from "./components/HomePage";
+import Notes from "./components/Notes";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -13,20 +17,33 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+  const sessionUser = useSelector(state => state.session.user);
+
   return (
-    <>
+    <div className='body'>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
-        <Switch>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
-        </Switch>
+        sessionUser && (
+          <>
+            <NotesNav isLoaded={isLoaded} />
+            <Notes />
+          </>
+        )
       )}
-    </>
+      {isLoaded && (
+        !sessionUser && <HomePage />
+      )}
+      {/* {isLoaded && (
+        // <Switch>
+        //   <Route path="/login">
+        //     <LoginFormPage />
+        //   </Route>
+        //   <Route path="/signup">
+        //     <SignupFormPage />
+        //   </Route>
+        // </Switch>
+      )} */}
+    </div>
   );
 }
 

@@ -1,0 +1,166 @@
+.main_nav, a {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left; */
+    background-color: rgb(37, 37, 37);
+    color: white;
+    width: 300px;
+}
+
+.main_nav {
+    position: relative;
+    z-index: 1;
+    box-shadow: 1px 0px 10px black;
+    font-size: 20px;
+    font-weight: bold;
+    height: 100vh;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.main_nav::-webkit-scrollbar { /* chrome */
+    display: none;
+}
+
+.main_nav {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+div, a, button, .profile, .profile .email, .profile .logout {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+/* div {
+    width: 300px;
+    display: flex;
+    justify-content: left;
+} */
+
+.toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+button, a {
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    background: none;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+    transition: background-color 0.5s;
+}
+
+button:hover, a:hover {
+    
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: rgb(187, 103, 0);
+
+}
+
+.notebooks {
+    padding-left: 15px;
+}
+
+.notebooks:hover {
+    padding-left: 15px;
+}
+
+.select {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: rgb(187, 103, 0);
+    color: white;
+    border: none;
+}
+
+.select:hover {
+    outline-color: rgb(187, 103, 0);
+}
+
+.search {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+input {
+    width: 97%;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    border:none;
+    background-color: rgb(187, 103, 0);
+}
+
+input:focus {
+    color: black;
+    background-color: white;
+    outline-color: rgb(187, 103, 0);
+}
+
+.profile {
+    padding: 2px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profile div {
+    padding: 2px;
+    display:flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.profile button {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 100%;
+    padding: 2px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+.profile .logout {
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: -1px;
+}
+
+.profile li, .profile ul {
+    width: 100%;
+}
+
+.profile div {
+    margin-bottom: 10px;
+    margin-top: -20px;
+}

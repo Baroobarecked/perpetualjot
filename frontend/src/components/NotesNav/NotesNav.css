@@ -1,0 +1,38 @@
+.notesnavmain {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left; */
+    background-color: rgb(0, 0, 66);
+    color: rgb(187, 103, 0);
+    width: 300px;
+    font-size: 20px;
+    font-weight: bold;
+    overflow-y: scroll;
+    height: 100vh;
+    padding: 20px;
+}
+
+.notesnavmain::-webkit-scrollbar { /* chrome */
+    display: none;
+}
+
+.notesnavmain {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.notecard button{
+    color: rgb(187, 103, 0);
+}
+
+.notecard button {
+    border: 2px solid rgb(187, 103, 0);
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.notecard button:hover {
+    background-color: rgb(187, 103, 0);
+    color: white;
+}
