@@ -5,7 +5,8 @@
     justify-content: left; */
     background-color: rgb(37, 37, 37);
     color: white;
-    width: 300px;
+    min-width: 100px;
+    width: 15vw;
 }
 
 .main_nav {
@@ -108,7 +109,7 @@ button:hover, a:hover {
     align-items: flex-start;
 }
 
-input {
+input, textarea {
     width: 97%;
     color: white;
     border-radius: 5px;
@@ -117,7 +118,7 @@ input {
     background-color: rgb(187, 103, 0);
 }
 
-input:focus {
+input:focus, textarea:focus {
     color: black;
     background-color: white;
     outline-color: rgb(187, 103, 0);

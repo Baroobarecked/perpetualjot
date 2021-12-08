@@ -67,7 +67,7 @@ function Notes() {
                 <div className='notebook_title'>
                     <label>
                         title
-                        <input type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
+                        <input id='notebookfield' type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
                     </label>
                     <button onClick={async () => {
                         await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
@@ -83,10 +83,10 @@ function Notes() {
         return (
             <div>
                 <div className='note_title'>
-                    <label>
-                        title
-                        <input type='text' value={noteTitle} onChange={e => setNoteTitle(e.target.value)}></input>
-                    </label>
+                    <label for='editNoteField'>
+                        title</label>
+                        <input id='notefield' name='editNoteField' type='text' value={noteTitle} onChange={e => setNoteTitle(e.target.value)}></input>
+                    
                 </div>
                 <div className='textarea'>
                     <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)}></textarea>
@@ -96,12 +96,39 @@ function Notes() {
         )
     };
 
+    const notebookMessage = () => {
+        return (
+            <h3>Please select a notebook from the menu.</h3>
+        )
+    }
+    const noteMessage = () => {
+        return (
+            <h3>Please select a note from the menu, if there are none create one to add it to the notebook.</h3>
+        )
+    }
+    const noneMessage = () => {
+        return (
+            <h3>You must select a notebook before you can edit a note.</h3>
+        )
+    }
+
     return (
         <div className='notesmain'>
-            {globalNotebook && editNotebook()}
-            {globalNote && (
-                globalNotebook && editNote()
-            )}
+            <div className='editNotebook'>
+                {globalNotebook && editNotebook()}
+                {!globalNotebook && notebookMessage()}
+            </div>
+            <div className='editNote'>
+                {globalNote && (
+                    globalNotebook && editNote()
+                )}
+                {!globalNote && (
+                    globalNotebook && noteMessage()
+                )}
+                {!globalNote && (
+                    !globalNotebook && noneMessage()
+                )}
+            </div>
         </div>
     )
 
