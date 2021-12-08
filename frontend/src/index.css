@@ -20,3 +20,13 @@ ul, li {
     padding: 0px;
     margin: 0px;
 }
+
+
+button .textinbutton {
+    width: inherit;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    text-align: left;
+    text-overflow: ellipsis;
+}

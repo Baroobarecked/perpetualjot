@@ -35,13 +35,28 @@ function LoggedIn ({user}) {
             noteList.push(notes[noteId])
         }
     }
-    const [addToggle, setAddToggle] = useState(false);
 
-    const content = () => {
+    const style = () => {
+        const style = {
+            marginBottom: '10px',
+        }
+        const styles = {
+            width: '100%',
+            marginBottom: '10px',
+            height: '3px',
+            backgroundColor: 'rgb(187, 103, 0)',
+        }
         return (
-            <div>
-                <AddNotebookModal user={user}/>
-            </div>
+            <>
+                <button className='togglebutton' style={style} onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
+                <div style={styles}></div>
+            </>
+        )
+    }
+
+    const noStyle = () => {
+        return (
+            <button className='togglebutton' onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
         )
     }
     
@@ -49,10 +64,6 @@ function LoggedIn ({user}) {
         <div className='main_nav'>
             <div className='profile'>
                 <ProfileButton user={user} />
-            </div>
-            <div>
-                <button className='select' onClick={() => setAddToggle(!addToggle)}>New</button>
-                {addToggle && content()}
             </div>
             <div className='search'>
                 <label htmlFor='search'>Search</label>
@@ -62,9 +73,10 @@ function LoggedIn ({user}) {
                 <NavLink exact to="/">Home</NavLink>
             </div>
             <div className='toggle'>
-                <button onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
+                {!notebookToggle && noStyle()}
+                {notebookToggle && style()}
+                {notebookToggle && <AddNotebookModal user={user}/>}
                 {notebookToggle && notebookList.map(notebook => {
-                    // console.log(notebook)
                     return (
                         <button className='notebooks' key={notebook.title} value={notebook} 
                         onClick={() => {
@@ -73,7 +85,7 @@ function LoggedIn ({user}) {
                             setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
-                        }}>{notebook.title}</button>
+                        }}><span className='textinbutton'>{notebook.title}</span></button>
                     )
                 })}
             </div>

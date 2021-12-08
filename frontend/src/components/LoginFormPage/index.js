@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -12,11 +12,22 @@ function LoginFormPage() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  console.log(sessionUser);
+  
+
   if (sessionUser) return (
     <Redirect to="/" />
   );
 
+
+  const demo = async () => {
+
+    setCredential('demo');
+    setPassword('demodemo');
+
+    dispatch(sessionActions.addUserSession({credential, password}))
+    
+  }
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -50,7 +61,8 @@ function LoginFormPage() {
           required
         />
       </label>
-      <button type="submit">Log In</button>
+      <button type="submit" id='submit'>Log In</button>
+      <button onClick={demo}>Demo</button>
     </form>
   );
 }

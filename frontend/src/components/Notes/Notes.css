@@ -19,7 +19,8 @@
     border: 2px solid rgb(187, 103, 0);
     display: flex;
     justify-content: center;
-    max-width: 150px;
+    max-width: 100px;
+    font-size: 20px;
 }
 
 .note_title {

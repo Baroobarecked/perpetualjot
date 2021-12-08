@@ -41,7 +41,7 @@ function NotesNav () {
                                 dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             }
                             dispatch(globalNoteActions.setNewGlobalNote(note));
-                            }}>{note.title}</button>
+                            }}><span className='textinbutton'>{note.title}</span></button>
                     </div>
                 )
             })}

@@ -7,7 +7,7 @@ function AddNotebookModal({user}) {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Add Notebook</button>
+      <button id='notebookmodal' onClick={() => setShowModal(true)}>Add Notebook</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <AddNotbookPage user={user}/>

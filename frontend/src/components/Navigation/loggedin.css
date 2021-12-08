@@ -57,7 +57,7 @@ a {
 button, a {
     border-radius: 5px;
     padding: 5px;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
     display: flex;
     justify-content: left;
@@ -79,6 +79,7 @@ button:hover, a:hover {
 }
 
 .notebooks {
+    font-size: 20px;
     padding-left: 15px;
 }
 
@@ -164,4 +165,12 @@ input:focus, textarea:focus {
 .profile div {
     margin-bottom: 10px;
     margin-top: -20px;
+}
+
+ul button .textinbutton {
+    text-align: left;
+};
+
+ul #notebookmodal {
+    font-size: 25px;
 }

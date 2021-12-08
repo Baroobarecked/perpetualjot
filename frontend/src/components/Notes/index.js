@@ -58,30 +58,27 @@ function Notes() {
     }, [globalNotebook])
 
     //Updates database everytime a change is made to notebook title
-    useEffect(async () => {
-        if(globalNotebook) {
-            if(notebookTitle !== '') {
-                const res = await dispatch(notebookActions.editNotebook({
-                    title: notebookTitle,
-                    notebookId: globalNotebook.id,
-                }));
-                await dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
+    useEffect (() => {
+        async function updateData() {
+            if(globalNotebook) {
+                if(notebookTitle !== '') {
+                    const res = await dispatch(notebookActions.editNotebook({
+                        title: notebookTitle,
+                        notebookId: globalNotebook.id,
+                    }));
+                    dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
+                }
+                if(notebookTitle === '') {
+                    setErrorToggle(true);
+                } else {
+                    setErrorToggle(false);
+                }
+                
             }
-            
         }
+        updateData();
+        
     }, [dispatch, notebookTitle])
-
-    useEffect(() => {
-        if(globalNotebook) {
-            console.log(notebookTitle)
-            if(notebookTitle === '') {
-                console.log('hello')
-                setErrorToggle(true);
-            } else {
-                setErrorToggle(false);
-            }
-        }  
-    }, [notebookTitle])
 
     //content for editing notebook
     const editNotebook = () => {
@@ -89,7 +86,7 @@ function Notes() {
             <div>
                 {errorToggle && errorContent()}
                 <div className='notebook_title'>
-                        <input id='notebookfield' type='text' value={notebookTitle} required onChange={ e => setNotebookTitle(e.target.value)}></input>
+                        <input id='notebookfield' type='text' value={notebookTitle} onChange={ e => setNotebookTitle(e.target.value)}></input>
                     <button onClick={async () => {
                         await dispatch(noteActions.getNoteArrayOppositeFiltered(globalNotebook.id))
                         await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
