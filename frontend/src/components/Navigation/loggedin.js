@@ -79,9 +79,9 @@ function LoggedIn ({user}) {
                 {notebookToggle && notebookList.map(notebook => {
                     return (
                         <button className='notebooks' key={notebook.title} value={notebook} 
-                        onClick={() => {
+                        onClick={async () => {
                             console.log(notebook);
-                            dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
+                            await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));

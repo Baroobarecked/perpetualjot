@@ -12,7 +12,7 @@ function Notes() {
     const dispatch = useDispatch();
     const [noteTitle, setNoteTitle] = useState('Untitled');
     const [noteContent, setNoteContent] = useState('');
-    const [notebookTitle, setNotebookTitle] = useState(null);
+    // const [notebookTitle, setNotebookTitle] = useState(null);
     const [errorToggle, setErrorToggle] = useState(false);
 
     const globalNote = useSelector(state => state.globalNote);
@@ -49,26 +49,21 @@ function Notes() {
             }
         }
     }, [dispatch, noteTitle, noteContent])
-
+    
     //sets state variable once globalNotebook is created
-    useEffect(async () => {
-        if(globalNotebook) {
-            setNotebookTitle(globalNotebook.title);
-        }
-    }, [globalNotebook])
+
 
     //Updates database everytime a change is made to notebook title
     useEffect (() => {
         async function updateData() {
             if(globalNotebook) {
-                if(notebookTitle !== '') {
+                if(globalNotebook.title !== '') {
                     const res = await dispatch(notebookActions.editNotebook({
-                        title: notebookTitle,
+                        title: globalNotebook.title,
                         notebookId: globalNotebook.id,
                     }));
-                    dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
                 }
-                if(notebookTitle === '') {
+                if(globalNotebook.title === '') {
                     setErrorToggle(true);
                 } else {
                     setErrorToggle(false);
@@ -78,7 +73,7 @@ function Notes() {
         }
         updateData();
         
-    }, [dispatch, notebookTitle])
+    }, [dispatch, globalNotebook])
 
     //content for editing notebook
     const editNotebook = () => {
@@ -86,7 +81,9 @@ function Notes() {
             <div>
                 {errorToggle && errorContent()}
                 <div className='notebook_title'>
-                        <input id='notebookfield' type='text' value={notebookTitle} onChange={ e => setNotebookTitle(e.target.value)}></input>
+                        <input id='notebookfield' type='text' value={globalNotebook.title} onChange={ async e => {
+                            await dispatch(globalNotebookActions.setNewGlobalNotebook({...globalNotebook, title: e.target.value}));
+                        }}></input>
                     <button onClick={async () => {
                         await dispatch(noteActions.getNoteArrayOppositeFiltered(globalNotebook.id))
                         await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
