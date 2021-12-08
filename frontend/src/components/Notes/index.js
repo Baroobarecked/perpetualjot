@@ -13,6 +13,7 @@ function Notes() {
     const [noteTitle, setNoteTitle] = useState('Untitled');
     const [noteContent, setNoteContent] = useState('');
     const [notebookTitle, setNotebookTitle] = useState(null);
+    const [errorToggle, setErrorToggle] = useState(false);
 
     const globalNote = useSelector(state => state.globalNote);
     const globalNotebook = useSelector(state => state.globalNotebook);
@@ -26,6 +27,7 @@ function Notes() {
             notebookList.push(notebooks[notebookId])
         }
     };
+
    //sets state variables once globalNote created
     useEffect(() => {
         if(globalNote) {
@@ -33,6 +35,7 @@ function Notes() {
             setNoteContent(globalNote.content);
         }
     }, [globalNote])
+
     //submits changes to the note
     useEffect(() => {
         if(globalNote) {
@@ -46,28 +49,47 @@ function Notes() {
             }
         }
     }, [dispatch, noteTitle, noteContent])
+
     //sets state variable once globalNotebook is created
     useEffect(async () => {
         if(globalNotebook) {
             setNotebookTitle(globalNotebook.title);
         }
     }, [globalNotebook])
+
     //Updates database everytime a change is made to notebook title
-    useEffect(() => {
+    useEffect(async () => {
         if(globalNotebook) {
-            dispatch(notebookActions.editNotebook({
-                title: notebookTitle,
-                notebookId: globalNotebook.id,
-            }));
+            if(notebookTitle !== '') {
+                const res = await dispatch(notebookActions.editNotebook({
+                    title: notebookTitle,
+                    notebookId: globalNotebook.id,
+                }));
+                await dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
+            }
+            
         }
     }, [dispatch, notebookTitle])
+
+    useEffect(() => {
+        if(globalNotebook) {
+            console.log(notebookTitle)
+            if(notebookTitle === '') {
+                console.log('hello')
+                setErrorToggle(true);
+            } else {
+                setErrorToggle(false);
+            }
+        }  
+    }, [notebookTitle])
 
     //content for editing notebook
     const editNotebook = () => {
         return (
             <div>
+                {errorToggle && errorContent()}
                 <div className='notebook_title'>
-                        <input id='notebookfield' type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
+                        <input id='notebookfield' type='text' value={notebookTitle} required onChange={ e => setNotebookTitle(e.target.value)}></input>
                     <button onClick={async () => {
                         await dispatch(noteActions.getNoteArrayOppositeFiltered(globalNotebook.id))
                         await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
@@ -89,10 +111,16 @@ function Notes() {
                 <div className='textarea'>
                     <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)}></textarea>
                 </div>
-                {/* <button onClick={submit}>Submit</button> */}
             </div>
         )
     };
+
+    //error content
+    const errorContent = () => {
+        return (
+            <pre>Notebook title must include at least one character</pre>
+        )
+    }
 
     const notebookMessage = () => {
         return (
