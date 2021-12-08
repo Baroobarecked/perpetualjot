@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import './Notes.css'
 
 function Notes() {
-    // const user = useSelector(state => state.session.user);
+    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const [noteTitle, setNoteTitle] = useState('Untitled');
     const [noteContent, setNoteContent] = useState('');
@@ -69,7 +69,10 @@ function Notes() {
                         title
                         <input type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
                     </label>
-                    <button onClick={() => {dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}))}}>delete</button>
+                    <button onClick={async () => {
+                        await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
+                        dispatch(noteActions.getNoteArray(user.id))
+                    }}>delete</button>
                 </div>
             </div>
         )
