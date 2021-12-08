@@ -43,6 +43,7 @@ function LoggedIn ({user}) {
                     userId: user.id, 
                     notebookId: globalNotebook.id,
                     title: 'Untitled',
+                    content: 'Place note here',
                 }))}>Add Note</button>
                 <AddNotebookModal user={user}/>
             </div>

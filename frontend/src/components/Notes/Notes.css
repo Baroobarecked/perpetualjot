@@ -20,12 +20,12 @@
 }
 
 .editNotebook {
-    height: 20vh;
+    height: 10vh;
     padding: 30px;
 }
 
 .editNote {
-    height: 80vh;
+    height: 60vh;
     padding: 30px;
 }
 
@@ -40,10 +40,24 @@ label, h3 {
 }
 
 input#notefield, input#notebookfield {
-    min-width: max-content;
+    background-color: rgba(0, 0, 0, 0);
     margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+input#notefield:focus, input#notebookfield:focus {
+    background-color: rgb(187, 103, 0);
 }
 
 textarea {
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    margin-bottom: 10px;
     min-width: max-content;
+    height: 40vh;
+}
+
+textarea:focus {
+    background-color: rgb(187, 103, 0);
 }

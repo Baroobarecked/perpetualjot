@@ -32,7 +32,7 @@ function Notes() {
         }
     }, [globalNote])
     //submits changes to the note
-    function submit() {
+    useEffect(() => {
         if(globalNote) {
             if(globalNotebook) {
                 dispatch(noteActions.editNote({
@@ -43,7 +43,7 @@ function Notes() {
                 }));
             }
         }
-    }
+    }, [dispatch, noteTitle, noteContent])
     //sets state variable once globalNotebook is created
     useEffect(() => {
         if(globalNotebook) {
@@ -65,10 +65,7 @@ function Notes() {
         return (
             <div>
                 <div className='notebook_title'>
-                    <label>
-                        title
                         <input id='notebookfield' type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
-                    </label>
                     <button onClick={async () => {
                         await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
                         dispatch(noteActions.getNoteArray(user.id))
@@ -83,15 +80,12 @@ function Notes() {
         return (
             <div>
                 <div className='note_title'>
-                    <label for='editNoteField'>
-                        title</label>
                         <input id='notefield' name='editNoteField' type='text' value={noteTitle} onChange={e => setNoteTitle(e.target.value)}></input>
-                    
                 </div>
                 <div className='textarea'>
                     <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)}></textarea>
                 </div>
-                <button onClick={submit}>Submit</button>
+                {/* <button onClick={submit}>Submit</button> */}
             </div>
         )
     };
