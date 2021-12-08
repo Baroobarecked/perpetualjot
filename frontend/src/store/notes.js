@@ -100,6 +100,15 @@ export const getNoteArrayFiltered = (notebookId) => async dispatch => {
     return result;
 };
 
+export const getNoteArrayOppositeFiltered = (notebookId) => async dispatch => {
+    const res = await csrfFetch(`/api/notebooks/${notebookId}/removenotes`);
+
+    const notesArray = await res.json();
+
+    const result = await dispatch(getNotes(notesArray));
+    return result;
+};
+
 const noteReducer = (state = null, action) => {
     let newState = {};
     switch (action.type) {

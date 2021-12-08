@@ -1,5 +1,7 @@
 import * as notebookActions from "../../store/notebooks";
 import * as noteActions from "../../store/notes";
+import * as globalNotebookActions from "../../store/globalNotebook";
+import * as globalNoteActions from "../../store/globalNote";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
@@ -45,7 +47,7 @@ function Notes() {
         }
     }, [dispatch, noteTitle, noteContent])
     //sets state variable once globalNotebook is created
-    useEffect(() => {
+    useEffect(async () => {
         if(globalNotebook) {
             setNotebookTitle(globalNotebook.title);
         }
@@ -67,8 +69,10 @@ function Notes() {
                 <div className='notebook_title'>
                         <input id='notebookfield' type='text' value={notebookTitle} onChange={e => setNotebookTitle(e.target.value)}></input>
                     <button onClick={async () => {
+                        await dispatch(noteActions.getNoteArrayOppositeFiltered(globalNotebook.id))
                         await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
-                        dispatch(noteActions.getNoteArray(user.id))
+                        await dispatch(globalNotebookActions.initResetGlobalNotebook());
+                        await dispatch(globalNoteActions.initResetGlobalNote());
                     }}>delete</button>
                 </div>
             </div>

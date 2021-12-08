@@ -4,7 +4,7 @@ const { Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const Note = sequelize.define('Note', {
     title: DataTypes.STRING,
-    content: DataTypes.STRING,
+    content: DataTypes.TEXT,
     userId: DataTypes.INTEGER,
     notebookId: DataTypes.INTEGER
   }, {});

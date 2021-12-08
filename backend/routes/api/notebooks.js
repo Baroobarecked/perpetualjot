@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-
+const { Sequelize } = require('sequelize')
 const { requireAuth } = require('../../utils/auth');
 const { Notebook, Note } = require('../../db/models');
 // const { check } = require('express-validator');
@@ -51,6 +51,18 @@ router.get('/:notebookId/notes/', requireAuth, asyncHandler(async (req, res) => 
     const note = await Note.findAll({
         where: {
             notebookId
+        }
+    });
+  
+    return res.json(note);
+}));
+
+router.get('/:notebookId/removenotes/', requireAuth, asyncHandler(async (req, res) => {
+    const {notebookId} = req.params
+  
+    const note = await Note.findAll({
+        where: {
+            [Sequelize.Op.not]: {notebookId}
         }
     });
   

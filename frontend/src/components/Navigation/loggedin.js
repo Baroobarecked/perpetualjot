@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import * as noteActions from "../../store/notes";
 import * as notebookActions from "../../store/notebooks";
 import * as globalNotebookActions from "../../store/globalNotebook";
+import * as globalNoteActions from "../../store/globalNote";
 import ProfileButton from './ProfileButton';
 
 import './loggedin.css';
@@ -76,13 +77,17 @@ function LoggedIn ({user}) {
                             console.log(notebook);
                             dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             setGlobalNotebook(notebook);
-                            return dispatch(noteActions.getNoteArrayFiltered(notebook.id))
+                            dispatch(globalNoteActions.initResetGlobalNote());
+                            return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
                         }}>{notebook.title}</button>
                     )
                 })}
             </div>
             <div>
-                <button>Notes</button>
+                <button onClick={() => {
+                    dispatch(noteActions.getNoteArray(user.id));
+                    dispatch(globalNotebookActions.initResetGlobalNotebook());
+                }}>Notes</button>
             </div>
         </div>
       );

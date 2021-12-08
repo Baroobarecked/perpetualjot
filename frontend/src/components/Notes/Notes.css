@@ -56,6 +56,21 @@ textarea {
     margin-bottom: 10px;
     min-width: max-content;
     height: 40vh;
+    resize: none;
+}
+
+textarea::-webkit-scrollbar { /* chrome */
+   width: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: rgb(37, 37, 37);
+    border-radius: 10px;
+}
+
+textarea {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 textarea:focus {
