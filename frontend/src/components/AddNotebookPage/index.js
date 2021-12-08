@@ -26,7 +26,7 @@ function AddNotbookPage({user}) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='loginform'>
+    <form onSubmit={handleSubmit} className='addNotebook'>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>

@@ -40,12 +40,6 @@ function LoggedIn ({user}) {
     const content = () => {
         return (
             <div>
-                <button onClick={() => dispatch(noteActions.addNewNote({
-                    userId: user.id, 
-                    notebookId: globalNotebook.id,
-                    title: 'Untitled',
-                    content: 'Place note here',
-                }))}>Add Note</button>
                 <AddNotebookModal user={user}/>
             </div>
         )
@@ -87,7 +81,8 @@ function LoggedIn ({user}) {
                 <button onClick={() => {
                     dispatch(noteActions.getNoteArray(user.id));
                     dispatch(globalNotebookActions.initResetGlobalNotebook());
-                }}>Notes</button>
+                    dispatch(globalNoteActions.initResetGlobalNote());
+                }}>All Notes</button>
             </div>
         </div>
       );

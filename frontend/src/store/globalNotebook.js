@@ -14,9 +14,9 @@ const resetGlobalNotebook = () => ({
 });
 
 //thunks
-export const setNewGlobalNotebook = note => async (dispatch) => {
+export const setNewGlobalNotebook = notebook => async (dispatch) => {
 
-    const newGlobalNotebook = {...note}
+    const newGlobalNotebook = {...notebook}
 
     if(newGlobalNotebook) {
         const result = await dispatch(addGlobalNotebook(newGlobalNotebook));

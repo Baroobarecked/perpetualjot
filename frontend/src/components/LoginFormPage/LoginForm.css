@@ -2,8 +2,10 @@ label {
     font-weight: bold;
 }
 
-
+.loginform button {
+    max-width: 150px;
+}
 
 .loginform {
-    margin-top: 100px;
+    max-width: 500px;
 }

@@ -23,6 +23,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    max-height: min-content;
     background-color: rgb(129, 125, 125);
     padding: 20px;
     border-radius: 5px;
@@ -30,4 +31,10 @@
 
 #modal-content input {
     margin-bottom: 10px;
+}
+
+#modal-content button {
+    border: 2px solid rgb(187, 103, 0);
+    display: flex;
+    justify-content: center;
 }

@@ -96,7 +96,7 @@ function Notes() {
 
     const notebookMessage = () => {
         return (
-            <h3>Please select a notebook from the menu.</h3>
+            <h3>Please select a notebook or note from the menu.</h3>
         )
     }
     const noteMessage = () => {
@@ -106,7 +106,7 @@ function Notes() {
     }
     const noneMessage = () => {
         return (
-            <h3>You must select a notebook before you can edit a note.</h3>
+            <h3>You must select a notebook or note before you can edit.</h3>
         )
     }
 

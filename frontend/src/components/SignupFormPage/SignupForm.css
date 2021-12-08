@@ -1,3 +1,11 @@
 label {
     font-weight: bold;
 }
+
+.signupform button {
+    max-width: 150px;
+}
+
+.signupform {
+    max-width: 500px;
+}
