@@ -9,3 +9,9 @@ label {
 .loginform {
     max-width: 500px;
 }
+
+.loginform .formbuttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

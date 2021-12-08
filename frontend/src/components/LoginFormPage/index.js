@@ -27,7 +27,7 @@ function LoginFormPage() {
     dispatch(sessionActions.addUserSession({credential, password}))
     
   }
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -61,8 +61,10 @@ function LoginFormPage() {
           required
         />
       </label>
-      <button type="submit" id='submit'>Log In</button>
-      <button onClick={demo}>Demo</button>
+      <div className='formbuttons'>
+        <button type="submit" id='submit'>Log In</button>
+        <button onClick={demo}>Demo</button>
+      </div>
     </form>
   );
 }
