@@ -93,7 +93,7 @@ function LoggedIn ({user}) {
                             setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
-                        }}><span className='textinbutton'>{notebook.title}</span><i class="far fa-trash-alt delete" onClick={e => deleteNotebook(e, notebook)}></i></button>
+                        }}><span className='textinbutton'>{notebook.title}</span><i className="far fa-trash-alt delete" onClick={e => deleteNotebook(e, notebook)}></i></button>
                     )
                 })}
             </div>

@@ -3,7 +3,7 @@ import * as noteActions from "../../store/notes";
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import './Notes.css'
 
@@ -13,10 +13,12 @@ function Notes() {
     const [noteTitle, setNoteTitle] = useState('Untitled');
     const [noteContent, setNoteContent] = useState('');
     // const [notebookTitle, setNotebookTitle] = useState(null);
-    const [errorToggle, setErrorToggle] = useState(false);
+    const [errorSameTitleToggle, setErrorSameTitleToggle] = useState(false);
+    const [errorNoContentToggle, setErrorNoContentToggle] = useState(false);
 
     const globalNote = useSelector(state => state.globalNote);
     const globalNotebook = useSelector(state => state.globalNotebook);
+    const previousNotebook = useRef();
     
     const notebooks = useSelector(state => state.notebooks);
     let notebookList =[];
@@ -56,19 +58,30 @@ function Notes() {
     //Updates database everytime a change is made to notebook title
     useEffect (() => {
         async function updateData() {
+            console.log(previousNotebook)
             if(globalNotebook) {
                 if(globalNotebook.title !== '') {
-                    await dispatch(notebookActions.editNotebook({
-                        title: globalNotebook.title,
-                        notebookId: globalNotebook.id,
-                    }));
+                    console.log('hello')
+                    if (notebookList.find(notebook => {
+                        if(notebook.title === globalNotebook.title && notebook.id !== globalNotebook.id) return true;
+                        else return false;
+                    })) {
+                        await dispatch(globalNotebookActions.setNewGlobalNotebook(previousNotebook.current));
+                        setErrorSameTitleToggle(true);
+                    } else {
+                        await dispatch(notebookActions.editNotebook({
+                            title: globalNotebook.title,
+                            notebookId: globalNotebook.id,
+                        }));
+                        previousNotebook.current = {...globalNotebook};
+                        setTimeout(() => setErrorSameTitleToggle(false), 5000);
+                    }
                 }
                 if(document.getElementById('notebookfield').value === '') {
-                    setErrorToggle(true);
+                    setErrorNoContentToggle(true);
                 } else {
-                    setErrorToggle(false);
+                    setErrorNoContentToggle(false);
                 }
-                
             }
         }
         updateData();
@@ -79,7 +92,8 @@ function Notes() {
     const editNotebook = () => {
         return (
             <div>
-                {errorToggle && errorContent()}
+                {errorNoContentToggle && errorNoChars()}
+                {errorSameTitleToggle && errorSameTitle()}
                 <div className='notebook_title'>
                         <input id='notebookfield' type='text' value={globalNotebook.title} onChange={ async e => {
                             await dispatch(globalNotebookActions.setNewGlobalNotebook({...globalNotebook, title: e.target.value}));
@@ -105,9 +119,14 @@ function Notes() {
     };
 
     //error content
-    const errorContent = () => {
+    const errorNoChars = () => {
         return (
             <pre>Notebook title must include at least one character</pre>
+        )
+    }
+    const errorSameTitle = () => {
+        return (
+            <pre>Notebook title must unique</pre>
         )
     }
 
