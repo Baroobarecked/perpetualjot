@@ -3,12 +3,26 @@ const asyncHandler = require('express-async-handler');
 const { Sequelize } = require('sequelize')
 const { requireAuth } = require('../../utils/auth');
 const { Notebook, Note } = require('../../db/models');
-// const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-router.post('/', requireAuth, asyncHandler(async (req, res) => {
+const validateUserInput = [
+    check('title')
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage('Please provide a title')
+      .custom(title => {
+          return Notebook.findOne({ where: { title }})
+            .then(() => {
+                return Promise.reject('Title must be unique');
+            })
+      }),
+    handleValidationErrors
+]
+
+router.post('/', requireAuth, validateUserInput, asyncHandler(async (req, res) => {
 
     const { title, userId } = req.body;
 

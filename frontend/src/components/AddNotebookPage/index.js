@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import * as notebookActions from '../../store/notebooks';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
 import * as noteActions from "../../store/notes";
 
 function AddNotbookPage({user}) {
   const dispatch = useDispatch();
-  // const sessionUser = useSelector(state => state.session.user);
   const [title, setTitle] = useState('');
   const [errors, setErrors] = useState([]);
 
@@ -17,13 +15,21 @@ function AddNotbookPage({user}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
-    const res = await dispatch(notebookActions.addNewNotebook({ title, userId }))
-    if(!errors.length) {
+    let res;
+    try {
+
+      res = await dispatch(notebookActions.addNewNotebook({ title, userId }))
+
       dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
       dispatch(globalNoteActions.initResetGlobalNote());
       dispatch(noteActions.getNoteArrayFiltered(res.notebook.id));
+
       const background = document.getElementById('modal-background');
       background.click();
+
+    } catch (error) {
+      const resError = await error.json();
+      setErrors(resError.errors);
     }
   }
 
