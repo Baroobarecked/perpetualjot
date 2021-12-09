@@ -1,0 +1,15 @@
+.deleteNotebook .formbuttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.deleteNotebook {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.deleteNotebook .formbuttons button {
+    max-width: 100px;
+}

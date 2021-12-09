@@ -7,9 +7,10 @@ import * as notebookActions from "../../store/notebooks";
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
 import ProfileButton from './ProfileButton';
+import AddNotebookModal from '../AddNotebookModal';
+import DeleteNotebookModal from '../DeleteNotebookModal';
 
 import './loggedin.css';
-import AddNotebookModal from '../AddNotebookModal';
 
 function LoggedIn ({user}) {
     // console.log(user);
@@ -93,7 +94,7 @@ function LoggedIn ({user}) {
                             setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
-                        }}><span className='textinbutton'>{notebook.title}</span><i className="far fa-trash-alt delete" onClick={e => deleteNotebook(e, notebook)}></i></button>
+                        }}><span className='textinbutton'>{notebook.title}</span><DeleteNotebookModal notebook={notebook} /></button>
                     )
                 })}
             </div>
