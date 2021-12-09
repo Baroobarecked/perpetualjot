@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
+import * as noteActions from "../../store/notes";
 
 function AddNotbookPage({user}) {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function AddNotbookPage({user}) {
     if(!errors.length) {
       dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
       dispatch(globalNoteActions.initResetGlobalNote());
+      dispatch(noteActions.getNoteArrayFiltered(res.notebook.id));
       const background = document.getElementById('modal-background');
       background.click();
     }
