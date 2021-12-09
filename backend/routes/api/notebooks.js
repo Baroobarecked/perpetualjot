@@ -14,9 +14,12 @@ const validateUserInput = [
       .notEmpty()
       .withMessage('Please provide a title')
       .custom(title => {
-          return Notebook.findOne({ where: { title }})
-            .then(() => {
-                return Promise.reject('Title must be unique');
+        //   console.log(req)
+          return Notebook.findOne({ where: { title: title }})
+            .then((res) => {
+                if(res !== null) {
+                    return Promise.reject('Title must be unique')
+                }
             })
       }),
     handleValidationErrors

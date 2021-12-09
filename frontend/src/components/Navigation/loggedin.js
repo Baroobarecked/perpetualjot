@@ -36,15 +36,6 @@ function LoggedIn ({user}) {
         }
     }
 
-    const deleteNotebook = async (e, notebook) => {
-        e.stopPropagation();
-        // await dispatch(globalNoteActions)
-        await dispatch(noteActions.getNoteArrayOppositeFiltered(notebook.id))
-        await dispatch(notebookActions.deleteOldNotebook({ notebookId: notebook.id}));
-        await dispatch(globalNotebookActions.initResetGlobalNotebook());
-        await dispatch(globalNoteActions.initResetGlobalNote());
-    }
-
     const style = () => {
         const style = {
             marginBottom: '10px',
