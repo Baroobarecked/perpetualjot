@@ -58,12 +58,12 @@ function Notes() {
         async function updateData() {
             if(globalNotebook) {
                 if(globalNotebook.title !== '') {
-                    const res = await dispatch(notebookActions.editNotebook({
+                    await dispatch(notebookActions.editNotebook({
                         title: globalNotebook.title,
                         notebookId: globalNotebook.id,
                     }));
                 }
-                if(globalNotebook.title === '') {
+                if(document.getElementById('notebookfield').value === '') {
                     setErrorToggle(true);
                 } else {
                     setErrorToggle(false);
