@@ -84,13 +84,8 @@ function Notes() {
                         <input id='notebookfield' type='text' value={globalNotebook.title} onChange={ async e => {
                             await dispatch(globalNotebookActions.setNewGlobalNotebook({...globalNotebook, title: e.target.value}));
                         }}></input>
-                    <button onClick={async () => {
-                        await dispatch(noteActions.getNoteArrayOppositeFiltered(globalNotebook.id))
-                        await dispatch(notebookActions.deleteOldNotebook({ notebookId: globalNotebook.id}));
-                        await dispatch(globalNotebookActions.initResetGlobalNotebook());
-                        await dispatch(globalNoteActions.initResetGlobalNote());
-                    }}>delete</button>
                 </div>
+                <div className='divider'></div>
             </div>
         )
     };

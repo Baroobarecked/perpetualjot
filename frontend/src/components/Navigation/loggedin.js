@@ -16,7 +16,6 @@ function LoggedIn ({user}) {
     const dispatch = useDispatch();
 
     const [globalNotebook, setGlobalNotebook] = useState(null);
-
     const notebooks = useSelector(state => state.notebooks);
     const [notebookToggle, setNotebookToggle] = useState(false);
     let notebookList =[];
@@ -34,6 +33,15 @@ function LoggedIn ({user}) {
         for(let noteId in notes) {
             noteList.push(notes[noteId])
         }
+    }
+
+    const deleteNotebook = async (e, notebook) => {
+        e.stopPropagation();
+        // await dispatch(globalNoteActions)
+        await dispatch(noteActions.getNoteArrayOppositeFiltered(notebook.id))
+        await dispatch(notebookActions.deleteOldNotebook({ notebookId: notebook.id}));
+        await dispatch(globalNotebookActions.initResetGlobalNotebook());
+        await dispatch(globalNoteActions.initResetGlobalNote());
     }
 
     const style = () => {
@@ -85,7 +93,7 @@ function LoggedIn ({user}) {
                             setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
-                        }}><span className='textinbutton'>{notebook.title}</span></button>
+                        }}><span className='textinbutton'>{notebook.title}</span><i class="far fa-trash-alt delete" onClick={e => deleteNotebook(e, notebook)}></i></button>
                     )
                 })}
             </div>
