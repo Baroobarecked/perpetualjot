@@ -8,17 +8,13 @@ import { useEffect, useRef, useState } from 'react';
 import './Notes.css'
 
 function Notes() {
-    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const [noteTitle, setNoteTitle] = useState('Untitled');
     const [noteContent, setNoteContent] = useState('');
-    // const [notebookTitle, setNotebookTitle] = useState(null);
-    const [errorSameTitleToggle, setErrorSameTitleToggle] = useState(false);
-    const [errorNoContentToggle, setErrorNoContentToggle] = useState(false);
-
+    const [errors, setErrors] = useState([])
+    const [noteErrors, setNoteErrors] = useState([])
     const globalNote = useSelector(state => state.globalNote);
     const globalNotebook = useSelector(state => state.globalNotebook);
-    const previousNotebook = useRef();
     
     const notebooks = useSelector(state => state.notebooks);
     let notebookList =[];
@@ -42,15 +38,25 @@ function Notes() {
     useEffect(() => {
         if(globalNote) {
             if(globalNotebook) {
-                dispatch(noteActions.editNote({
-                    title: noteTitle,
-                    content: noteContent,
-                    noteId: globalNote.id,
-                    notebookId: globalNotebook.id,
-                }));
+                setNoteErrors([]);
+                // let res;
+                async function updateNoteData(){
+                    try {
+                        await dispatch(noteActions.editNote({
+                            title: globalNote.title,
+                            content: globalNote.content,
+                            noteId: globalNote.id,
+                            notebookId: globalNotebook.id,
+                        }));
+                    } catch (error) {
+                        const resError = await error.json();
+                        setNoteErrors(resError.errors);
+                    }
+                }
+                updateNoteData()
             }
         }
-    }, [dispatch, noteTitle, noteContent])
+    }, [dispatch, globalNote])
     
     //sets state variable once globalNotebook is created
 
@@ -58,42 +64,28 @@ function Notes() {
     //Updates database everytime a change is made to notebook title
     useEffect (() => {
         async function updateData() {
-            console.log(previousNotebook)
-            if(globalNotebook) {
-                if(globalNotebook.title !== '') {
-                    console.log('hello')
-                    if (notebookList.find(notebook => {
-                        if(notebook.title === globalNotebook.title && notebook.id !== globalNotebook.id) return true;
-                        else return false;
-                    })) {
-                        await dispatch(globalNotebookActions.setNewGlobalNotebook(previousNotebook.current));
-                        setErrorSameTitleToggle(true);
-                    } else {
-                        await dispatch(notebookActions.editNotebook({
-                            title: globalNotebook.title,
-                            notebookId: globalNotebook.id,
-                        }));
-                        previousNotebook.current = {...globalNotebook};
-                        setTimeout(() => setErrorSameTitleToggle(false), 5000);
-                    }
-                }
-                if(document.getElementById('notebookfield').value === '') {
-                    setErrorNoContentToggle(true);
-                } else {
-                    setErrorNoContentToggle(false);
-                }
+        if(globalNotebook) {
+            setErrors([]);
+            // let res;
+            try {
+                await dispatch(notebookActions.editNotebook({
+                    title: globalNotebook.title,
+                    notebookId: globalNotebook.id,
+                }));
+            } catch (error) {
+                const resError = await error.json();
+                setErrors(resError.errors);
             }
         }
+        }
         updateData();
-        
     }, [dispatch, globalNotebook])
 
     //content for editing notebook
     const editNotebook = () => {
         return (
             <div>
-                {errorNoContentToggle && errorNoChars()}
-                {errorSameTitleToggle && errorSameTitle()}
+                {errors.map((error, idx) => <pre key={idx}>{error}</pre>)}
                 <div className='notebook_title'>
                         <input id='notebookfield' type='text' value={globalNotebook.title} onChange={ async e => {
                             await dispatch(globalNotebookActions.setNewGlobalNotebook({...globalNotebook, title: e.target.value}));
@@ -108,11 +100,16 @@ function Notes() {
     const editNote = () => {
         return (
             <div>
+                {noteErrors.map((error, idx) => <pre key={idx}>{error}</pre>)}
                 <div className='note_title'>
-                        <input id='notefield' name='editNoteField' type='text' value={noteTitle} onChange={e => setNoteTitle(e.target.value)}></input>
+                        <input id='notefield' name='editNoteField' type='text' value={globalNote.title} onChange={async e => {
+                            await dispatch(globalNoteActions.setNewGlobalNote({...globalNote, title: e.target.value}));
+                        }}></input>
                 </div>
                 <div className='textarea'>
-                    <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)}></textarea>
+                    <textarea value={globalNote.content} onChange={async e => {
+                        await dispatch(globalNoteActions.setNewGlobalNote({...globalNote, content: e.target.value}));
+                    }}></textarea>
                 </div>
             </div>
         )

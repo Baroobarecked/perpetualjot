@@ -3,12 +3,45 @@ const asyncHandler = require('express-async-handler');
 
 const { requireAuth } = require('../../utils/auth');
 const { Note } = require('../../db/models');
-// const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
+const { Sequelize } = require('sequelize');
 
 const router = express.Router();
 
-router.post('/', requireAuth, asyncHandler(async (req, res) => {
+const validateAddInput = [
+    check('title')
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage('Please provide a title'),
+    handleValidationErrors
+]
+
+const validateUserUpdateInput = [
+    check('title')
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage('Please provide a title')
+      .custom((title, { req }) => {
+          return Note.findOne({ where: { title : {
+                        [Sequelize.Op.iLike]: title
+                    }
+                }
+          })
+            .then((res) => {
+                if(res !== null && (req.body.noteId !== res.id && (req.body.title !== 'Untitled' && res.notebookId === req.body.notebookId))) {
+                    return Promise.reject('Title must be unique inside current notebook or left as Untitled')
+                }
+            })
+      }),
+    check('content')
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage('Please provide a note'),
+    handleValidationErrors
+]
+
+router.post('/', requireAuth, validateAddInput, asyncHandler(async (req, res) => {
 
     const { title, userId, notebookId, content } = req.body;
 
@@ -22,7 +55,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
     return res.json(newNote);
 }));
 
-router.put('/', requireAuth, asyncHandler(async (req, res) => {
+router.put('/', requireAuth, validateUserUpdateInput, asyncHandler(async (req, res) => {
 
     const { title, content, notebookId, noteId } = req.body;
 

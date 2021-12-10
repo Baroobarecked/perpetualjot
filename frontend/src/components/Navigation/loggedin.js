@@ -39,6 +39,8 @@ function LoggedIn ({user}) {
     const style = () => {
         const style = {
             marginBottom: '10px',
+            border: '2px solid rgb(187, 103, 0)',
+            borderRadius: '5px',
         }
         const styles = {
             width: '100%',
@@ -48,7 +50,7 @@ function LoggedIn ({user}) {
         }
         return (
             <>
-                <button className='togglebutton' style={style} onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
+                <button className='togglebutton' style={style} onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks<i class="fas fa-chevron-up"></i></button>
                 <div style={styles}></div>
             </>
         )
@@ -56,7 +58,7 @@ function LoggedIn ({user}) {
 
     const noStyle = () => {
         return (
-            <button className='togglebutton' onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks</button>
+            <button className='togglebutton' onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks<i class="fas fa-chevron-down"></i></button>
         )
     }
     
@@ -68,9 +70,6 @@ function LoggedIn ({user}) {
             <div className='search'>
                 <label htmlFor='search'>Search</label>
                 <input type='text' name='search'></input>
-            </div>
-            <div className='home'>
-                <NavLink exact to="/">Home</NavLink>
             </div>
             <div className='toggle'>
                 {!notebookToggle && noStyle()}

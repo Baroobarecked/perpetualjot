@@ -174,3 +174,10 @@ ul button .textinbutton {
 ul #notebookmodal {
     font-size: 25px;
 }
+
+
+.togglebutton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

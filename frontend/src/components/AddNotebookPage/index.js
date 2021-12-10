@@ -5,6 +5,8 @@ import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
 import * as noteActions from "../../store/notes";
 
+import './AddNotebookPage.css'
+
 function AddNotbookPage({user}) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
@@ -33,6 +35,11 @@ function AddNotbookPage({user}) {
     }
   }
 
+  const cancel = () => {
+    const background = document.getElementById('modal-background');
+    background.click();
+  }
+
   return (
     <form onSubmit={handleSubmit} className='addNotebook'>
       <ul>
@@ -47,7 +54,10 @@ function AddNotbookPage({user}) {
           required
         />
       </label>
-      <button type="submit">Add Notebook</button>
+      <div className='Notebook_buttons'>
+        <button type="submit">Add Notebook</button>
+        <button onClick={cancel}>Cancel</button>
+      </div>
     </form>
   );
 }

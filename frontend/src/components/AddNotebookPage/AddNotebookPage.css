@@ -1,0 +1,10 @@
+.Notebook_buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+}
+
+.Notebook_buttons button {
+    font-size: 20px;
+    width: 200px;
+}
