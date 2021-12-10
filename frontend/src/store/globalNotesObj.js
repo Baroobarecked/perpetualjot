@@ -26,6 +26,13 @@ export const editGlobalNotes = (note) => async (dispatch) => {
     const result = await dispatch(changeGlobalNotes(note));
     return result;
 };
+export const editGlobalNotesArray = (noteArray) => async (dispatch) => {
+    console.log(noteArray)
+    noteArray.notes.forEach(async note => {
+        console.log(note)
+        await dispatch(removeGlobalNote(note));
+    })
+};
 export const deleteGlobalNotes = (note) => async (dispatch) => {
     const result = await dispatch(removeGlobalNote(note));
     return result;
@@ -55,6 +62,7 @@ const globalNotesObjReducer = (state = null, action) => {
             newState = {...state}
             arrayNotes = newState.notes;
             const deleteIndex = arrayNotes.findIndex(note => note.id === action.note.id);
+            console.log(deleteIndex, arrayNotes, action.note)
             arrayNotes.splice(deleteIndex, 1)
             newState = {notes: [...arrayNotes]};
             return newState

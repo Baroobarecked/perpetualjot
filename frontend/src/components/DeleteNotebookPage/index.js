@@ -3,6 +3,7 @@ import * as noteActions from "../../store/notes";
 import * as notebookActions from "../../store/notebooks";
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
+import * as globalNotesActions from "../../store/globalNotesObj";
 
 import './DeleteNotebook.css';
 
@@ -13,7 +14,8 @@ function DeleteNotbookPage({notebook}) {
   
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await dispatch(noteActions.getNoteArrayOppositeFiltered(notebook.id))
+        const res = await dispatch(noteActions.getNoteArrayFiltered(notebook.id));
+        await dispatch(globalNotesActions.editGlobalNotesArray(res));
         await dispatch(notebookActions.deleteOldNotebook({ notebookId: notebook.id}));
         await dispatch(globalNotebookActions.initResetGlobalNotebook());
         await dispatch(globalNoteActions.initResetGlobalNote());
