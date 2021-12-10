@@ -44,7 +44,7 @@ h1 {
     width: 75%;
     max-height: fit-content;
     min-height: 100vh;
-    box-shadow: 100px 0 50px 100px rgba(0, 0, 0, 0.712), -100px 0 50px 100px rgba(0, 0, 0, 0.712);
+    box-shadow: 100px 0 50px 0px rgba(0, 0, 0, 0.712), -100px 0 50px 0px rgba(0, 0, 0, 0.712);
 }
 
 div.sidebarblurleft {
