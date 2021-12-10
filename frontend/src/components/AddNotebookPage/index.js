@@ -19,11 +19,10 @@ function AddNotbookPage({user}) {
     setErrors([]);
     let res;
     try {
-
+      dispatch(globalNoteActions.initResetGlobalNote());
       res = await dispatch(notebookActions.addNewNotebook({ title, userId }))
 
       dispatch(globalNotebookActions.setNewGlobalNotebook(res.notebook));
-      dispatch(globalNoteActions.initResetGlobalNote());
       dispatch(noteActions.getNoteArrayFiltered(res.notebook.id));
 
       const background = document.getElementById('modal-background');
