@@ -8,6 +8,7 @@ div.homepagemain {
     color: rgb(187, 103, 0);
     z-index: -5;
     /* overflow-y: scroll; */
+    overflow-x: hidden;
 }
 
 h1 {

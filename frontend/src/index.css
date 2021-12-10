@@ -4,6 +4,20 @@ html, body {
     padding: 0px;
 }
 
+body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+body::-webkit-scrollbar { /* chrome */
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 div.body {
     display: flex;
     float: left;
