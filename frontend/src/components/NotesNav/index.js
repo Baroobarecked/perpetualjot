@@ -5,9 +5,11 @@ import * as noteActions from "../../store/notes";
 import * as globalNotebookActions from "../../store/globalNotebook";
 
 import './NotesNav.css';
+import DeleteNoteModal from "../DeleteNoteModal";
 
 function NotesNav () {
     const notes = useSelector(state => state.notes);
+    const globalNote = useSelector(state => state.globalNote);
     const globalNotebook = useSelector(state => state.globalNotebook);
     const notebooks = useSelector(state => state.notebooks);
     const user = useSelector(state => state.session.user);
@@ -41,7 +43,11 @@ function NotesNav () {
                                 dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             }
                             dispatch(globalNoteActions.setNewGlobalNote(note));
-                            }}><span className='textinbutton'>{note.title}</span></button>
+                            }}><span className='textinbutton'>{note.title}</span>{globalNote && 
+                                globalNote.id === note.id ?
+                                <DeleteNoteModal note={note} notebook={globalNotebook} /> :
+                                ''
+                            }</button>
                     </div>
                 )
             })}

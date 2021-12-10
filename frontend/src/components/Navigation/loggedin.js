@@ -79,7 +79,6 @@ function LoggedIn ({user}) {
                     return (
                         <button className='notebooks' key={notebook.title} value={notebook} 
                         onClick={async () => {
-                            console.log(notebook);
                             await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
