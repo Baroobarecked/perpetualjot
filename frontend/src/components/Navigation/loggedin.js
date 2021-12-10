@@ -38,8 +38,8 @@ function LoggedIn ({user}) {
         }
     }
 
-    notebookList = notebookList.filter(notebook => notebook.title.includes(searchValue))
-    noteList = noteList.filter(note => note.title.includes(searchValue))
+    notebookList = notebookList.filter(notebook => notebook.title.toLowerCase().includes(searchValue.toLowerCase()))
+    noteList = noteList.filter(note => note.title.toLowerCase().includes(searchValue.toLowerCase()))
 
     const style = () => {
         const style = {
