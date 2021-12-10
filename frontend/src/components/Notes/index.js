@@ -2,15 +2,14 @@ import * as notebookActions from "../../store/notebooks";
 import * as noteActions from "../../store/notes";
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
+import * as globalNotesActions from "../../store/globalNotesObj";
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './Notes.css'
 
 function Notes() {
     const dispatch = useDispatch();
-    const [noteTitle, setNoteTitle] = useState('Untitled');
-    const [noteContent, setNoteContent] = useState('');
     const [errors, setErrors] = useState([])
     const [noteErrors, setNoteErrors] = useState([])
     const globalNote = useSelector(state => state.globalNote);
@@ -26,14 +25,6 @@ function Notes() {
         }
     };
 
-   //sets state variables once globalNote created
-    useEffect(() => {
-        if(globalNote) {
-            setNoteTitle(globalNote.title);
-            setNoteContent(globalNote.content);
-        }
-    }, [globalNote])
-
     //submits changes to the note
     useEffect(() => {
         if(globalNote) {
@@ -48,6 +39,7 @@ function Notes() {
                             noteId: globalNote.id,
                             notebookId: globalNotebook.id,
                         }));
+                        await dispatch(globalNotesActions.editGlobalNotes(globalNote));
                     } catch (error) {
                         const resError = await error.json();
                         setNoteErrors(resError.errors);
@@ -56,10 +48,7 @@ function Notes() {
                 updateNoteData()
             }
         }
-    }, [dispatch, globalNote])
-    
-    //sets state variable once globalNotebook is created
-
+    }, [dispatch, globalNote, globalNotebook])
 
     //Updates database everytime a change is made to notebook title
     useEffect (() => {
@@ -114,18 +103,6 @@ function Notes() {
             </div>
         )
     };
-
-    //error content
-    const errorNoChars = () => {
-        return (
-            <pre>Notebook title must include at least one character</pre>
-        )
-    }
-    const errorSameTitle = () => {
-        return (
-            <pre>Notebook title must unique</pre>
-        )
-    }
 
     const notebookMessage = () => {
         return (

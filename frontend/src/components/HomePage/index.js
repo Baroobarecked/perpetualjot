@@ -1,6 +1,5 @@
 import './HomePage.css';
-import { useEffect, useRef, useState } from 'react';
-import SignupFormModal from '../SignupFormModal';
+import { useRef } from 'react';
 
 function HomePage() {
     let style;
@@ -91,8 +90,6 @@ function HomePage() {
         )
     }
 
-    const toggleButton = true;
-
     return (
         <div className='homepagemain'>
             <div className='sidebarblurleft'>
@@ -111,7 +108,7 @@ function HomePage() {
                 </div>
                 <div className='whyus'>
                     <div className='contain_image'>
-                        <img src='https://bl3302files.storage.live.com/y4mEtgaObPylUspQEBIGZ3c46Mnt8FTSBz1mF4dPLYemI9UJu1pWSR5WYBbIu8sRg1AFH0n8bDYFV83LjsUkz_nW_ielaVAzxKJb7WigXOZeTR8UJ-vRne4jDw17fJceV7RcaVW6a76d3oMdq8mvm81vVt1WKq8j47giOeu0PA-J4uGu_wm-JM23szK8acKdcO8?width=1902&height=1006&cropmode=none'></img>
+                        <img alt='logged in user page' src='https://bl3302files.storage.live.com/y4mEtgaObPylUspQEBIGZ3c46Mnt8FTSBz1mF4dPLYemI9UJu1pWSR5WYBbIu8sRg1AFH0n8bDYFV83LjsUkz_nW_ielaVAzxKJb7WigXOZeTR8UJ-vRne4jDw17fJceV7RcaVW6a76d3oMdq8mvm81vVt1WKq8j47giOeu0PA-J4uGu_wm-JM23szK8acKdcO8?width=1902&height=1006&cropmode=none'></img>
 
                     </div>
                     <div className='contain_text'>

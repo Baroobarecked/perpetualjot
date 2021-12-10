@@ -5,6 +5,7 @@ import notes from './notes';
 import notebooks from './notebooks';
 import globalNote from './globalNote';
 import globalNotebook from './globalNotebook';
+import globalNotesObj from './globalNotesObj';
 
 const rootReducer = combineReducers({
     session,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     notebooks,
     globalNote,
     globalNotebook,
+    globalNotesObj,
 });
 
 let enhancer;

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 import * as noteActions from "../../store/notes";
-import * as notebookActions from "../../store/notebooks";
 import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNoteActions from "../../store/globalNote";
 import ProfileButton from './ProfileButton';
@@ -13,14 +11,14 @@ import DeleteNotebookModal from '../DeleteNotebookModal';
 import './loggedin.css';
 
 function LoggedIn ({user}) {
-    // console.log(user);
     const dispatch = useDispatch();
 
-    const [globalNotebook, setGlobalNotebook] = useState(null);
+    // const [globalNotebooked, setGlobalNotebook] = useState(null);
     const notebooks = useSelector(state => state.notebooks);
     const [notebookToggle, setNotebookToggle] = useState(false);
     const [noteToggle, setNoteToggle] = useState(false);
     const [searchValue, setSearchValue] = useState('');
+    const globalNotebook = useSelector(state => state.globalNotebook);
     let notebookList =[];
 
     if(notebooks) {
@@ -29,17 +27,13 @@ function LoggedIn ({user}) {
         }
     }
 
-    const notes = useSelector(state => state.notes);
-    let noteList =[];
-    
+    const notes = useSelector(state => state.globalNotesObj);
+    let noteList;
     if(notes) {
-        for(let noteId in notes) {
-            noteList.push(notes[noteId])
-        }
+        noteList = [...notes.notes]
+        notebookList = notebookList.filter(notebook => notebook.title.toLowerCase().includes(searchValue.toLowerCase()))
+        noteList = noteList.filter(note => note.title.toLowerCase().includes(searchValue.toLowerCase()))
     }
-
-    notebookList = notebookList.filter(notebook => notebook.title.toLowerCase().includes(searchValue.toLowerCase()))
-    noteList = noteList.filter(note => note.title.toLowerCase().includes(searchValue.toLowerCase()))
 
     const style = () => {
         const style = {
@@ -55,7 +49,7 @@ function LoggedIn ({user}) {
         }
         return (
             <>
-                <button className='togglebutton' style={style} onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks<i class="fas fa-chevron-up"></i></button>
+                <button className='togglebutton' style={style} onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks<i className="fas fa-chevron-up"></i></button>
                 <div style={styles}></div>
             </>
         )
@@ -63,7 +57,7 @@ function LoggedIn ({user}) {
 
     const noStyle = () => {
         return (
-            <button className='togglebutton' onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks<i class="fas fa-chevron-down"></i></button>
+            <button className='togglebutton' onClick={() => setNotebookToggle(!notebookToggle)}>Notebooks<i className="fas fa-chevron-down"></i></button>
         )
     }
     
@@ -81,7 +75,7 @@ function LoggedIn ({user}) {
         }
         return (
             <>
-                <button className='togglebutton' style={style} onClick={() => setNoteToggle(!noteToggle)}>All Notes<i class="fas fa-chevron-up"></i></button>
+                <button className='togglebutton' style={style} onClick={() => setNoteToggle(!noteToggle)}>All Notes<i className="fas fa-chevron-up"></i></button>
                 <div style={styles}></div>
             </>
         )
@@ -89,7 +83,7 @@ function LoggedIn ({user}) {
 
     const noStyleNote = () => {
         return (
-            <button className='togglebutton' onClick={() => setNoteToggle(!noteToggle)}>All Notes<i class="fas fa-chevron-down"></i></button>
+            <button className='togglebutton' onClick={() => setNoteToggle(!noteToggle)}>All Notes<i className="fas fa-chevron-down"></i></button>
         )
     }
     
@@ -119,9 +113,10 @@ function LoggedIn ({user}) {
                     return (
                         <button className='notebooks' key={notebook.title} value={notebook} 
                         onClick={async () => {
-                            await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
-                            setGlobalNotebook(notebook);
                             dispatch(globalNoteActions.initResetGlobalNote());
+                            dispatch(globalNotebookActions.initResetGlobalNotebook());
+                            await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
+                            // setGlobalNotebook(notebook);
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
                         }}><span className='textinbutton'>{notebook.title}</span><DeleteNotebookModal notebook={notebook} /></button>
                     )
@@ -132,13 +127,18 @@ function LoggedIn ({user}) {
                 {noteToggle && styleNote()}
                 {noteToggle && noteList.map(note => {
                     return (
-                        <button className='notebooks' key={note.title} value={note} 
+                        <button className='notebooks' key={`${note.id}-${note.title}`} value={note.notebookId} 
                         onClick={async () => {
+                            dispatch(globalNoteActions.initResetGlobalNote());
+                            console.log(note)
                             if(!globalNotebook || globalNotebook.id !== note.notebookId) {
-                                const notebook = notebooks[note.notebookId];
-                                dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
+                                const notebook2 = notebooks[note.notebookId];
+                                console.log(notebook2)
+                                await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook2));
+                                console.log('hello')
                             }
                             dispatch(globalNoteActions.setNewGlobalNote(note));
+                            return dispatch(noteActions.getNoteArrayFiltered(note.notebookId));
                         }}><span className='textinbutton'>{note.title}</span></button>
                     )
                 })}

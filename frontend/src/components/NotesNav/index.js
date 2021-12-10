@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as globalNoteActions from "../../store/globalNote";
 import * as noteActions from "../../store/notes";
 import * as globalNotebookActions from "../../store/globalNotebook";
+import * as globalNotesActions from "../../store/globalNotesObj";
 
 import './NotesNav.css';
 import DeleteNoteModal from "../DeleteNoteModal";
@@ -27,14 +27,18 @@ function NotesNav () {
         <div className='notesnavmain'>
             <div className='titleandbutton'>
                 <h2>Notes</h2>
-                {globalNotebook && <button onClick={() => dispatch(noteActions.addNewNote({
-                    userId: user.id, 
-                    notebookId: globalNotebook.id,
-                    title: 'Untitled',
-                    content: 'Place note here',
-                }))}>Add Note</button>}
+                {globalNotebook && <button onClick={async () => {
+                    const res = await dispatch(noteActions.addNewNote({
+                        userId: user.id, 
+                        notebookId: globalNotebook.id,
+                        title: 'Untitled',
+                        content: 'Place note here',
+                    }))
+                    console.log(res)
+                    dispatch(globalNotesActions.editGlobalNotes(res.note))
+                }}>Add Note</button>}
             </div>
-            {noteList.map(note => {
+            {globalNotebook && noteList.map(note => {
                 return (
                     <div key={note.id} className='notecard'>
                         <button onClick={() => {

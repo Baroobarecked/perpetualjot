@@ -1,9 +1,8 @@
 import React from 'react';
-// import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import ProfileButton from './ProfileButton';
 import * as notebookActions from "../../store/notebooks";
 import * as noteActions from "../../store/notes";
+import * as globalNotesActions from "../../store/globalNotesObj";
 import './Navigation.css';
 import LoggedIn from './loggedin';
 import LoggedOut from './loggedout';
@@ -15,11 +14,13 @@ function Navigation({ isLoaded }){
   
   let sessionPage;
   if (sessionUser && isLoaded) {
-    // console.log(sessionUser.id)
-    dispatch(notebookActions.getNotebookArray(sessionUser.id));
-    dispatch(noteActions.getNoteArray(sessionUser.id));
+    const getData = async () => {
+      dispatch(notebookActions.getNotebookArray(sessionUser.id));
+      const res = await dispatch(noteActions.getNoteArray(sessionUser.id));
+      dispatch(globalNotesActions.setGlobalNotes(res));
+    }
+    getData();
     sessionPage = (
-      // <ProfileButton user={sessionUser} />
       <LoggedIn user={sessionUser} />
     );
   } else {
@@ -31,7 +32,6 @@ function Navigation({ isLoaded }){
   return (
     <ul>
       <li>
-        {/* <NavLink exact to="/">Home</NavLink> */}
         {isLoaded && sessionPage}
       </li>
     </ul>
