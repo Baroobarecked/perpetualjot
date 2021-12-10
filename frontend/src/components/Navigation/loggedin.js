@@ -19,6 +19,8 @@ function LoggedIn ({user}) {
     const [globalNotebook, setGlobalNotebook] = useState(null);
     const notebooks = useSelector(state => state.notebooks);
     const [notebookToggle, setNotebookToggle] = useState(false);
+    const [noteToggle, setNoteToggle] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     let notebookList =[];
 
     if(notebooks) {
@@ -35,6 +37,9 @@ function LoggedIn ({user}) {
             noteList.push(notes[noteId])
         }
     }
+
+    notebookList = notebookList.filter(notebook => notebook.title.includes(searchValue))
+    noteList = noteList.filter(note => note.title.includes(searchValue))
 
     const style = () => {
         const style = {
@@ -62,6 +67,32 @@ function LoggedIn ({user}) {
         )
     }
     
+    const styleNote = () => {
+        const style = {
+            marginBottom: '10px',
+            border: '2px solid rgb(187, 103, 0)',
+            borderRadius: '5px',
+        }
+        const styles = {
+            width: '100%',
+            marginBottom: '10px',
+            height: '3px',
+            backgroundColor: 'rgb(187, 103, 0)',
+        }
+        return (
+            <>
+                <button className='togglebutton' style={style} onClick={() => setNoteToggle(!noteToggle)}>All Notes<i class="fas fa-chevron-up"></i></button>
+                <div style={styles}></div>
+            </>
+        )
+    }
+
+    const noStyleNote = () => {
+        return (
+            <button className='togglebutton' onClick={() => setNoteToggle(!noteToggle)}>All Notes<i class="fas fa-chevron-down"></i></button>
+        )
+    }
+    
     return (
         <div className='main_nav'>
             <div className='profile'>
@@ -69,7 +100,16 @@ function LoggedIn ({user}) {
             </div>
             <div className='search'>
                 <label htmlFor='search'>Search</label>
-                <input type='text' name='search'></input>
+                <input type='text' name='search' value={searchValue} onChange={(e) => {
+                    setSearchValue(e.target.value);
+                    if(e.target.value !== '') {
+                        setNoteToggle(true);
+                        setNotebookToggle(true);
+                    } else {
+                        setNoteToggle(false);
+                        setNotebookToggle(false);
+                    }
+                    }}></input>
             </div>
             <div className='toggle'>
                 {!notebookToggle && noStyle()}
@@ -88,11 +128,20 @@ function LoggedIn ({user}) {
                 })}
             </div>
             <div>
-                <button onClick={() => {
-                    dispatch(noteActions.getNoteArray(user.id));
-                    dispatch(globalNotebookActions.initResetGlobalNotebook());
-                    dispatch(globalNoteActions.initResetGlobalNote());
-                }}>All Notes</button>
+                {!noteToggle && noStyleNote()}
+                {noteToggle && styleNote()}
+                {noteToggle && noteList.map(note => {
+                    return (
+                        <button className='notebooks' key={note.title} value={note} 
+                        onClick={async () => {
+                            if(!globalNotebook || globalNotebook.id !== note.notebookId) {
+                                const notebook = notebooks[note.notebookId];
+                                dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
+                            }
+                            dispatch(globalNoteActions.setNewGlobalNote(note));
+                        }}><span className='textinbutton'>{note.title}</span></button>
+                    )
+                })}
             </div>
         </div>
       );
