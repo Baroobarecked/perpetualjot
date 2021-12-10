@@ -1,0 +1,12 @@
+#getting_started {
+    position: relative;
+    color: whitesmoke;
+    border: 3px solid whitesmoke;
+    width: fit-content;
+    z-index: -100;
+}
+
+#getting_started:hover {
+    background-color: whitesmoke;
+    color: rgb(187, 103, 0);
+}
