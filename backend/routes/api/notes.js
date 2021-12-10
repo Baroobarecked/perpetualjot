@@ -23,13 +23,15 @@ const validateUserUpdateInput = [
       .notEmpty()
       .withMessage('Please provide a title')
       .custom((title, { req }) => {
-          return Note.findOne({ where: { title : {
+          return Note.findOne({ where: { 
+                    title : {
                         [Sequelize.Op.iLike]: title
-                    }
+                    },
+                    notebookId: req.body.notebookId,
                 }
           })
             .then((res) => {
-                if(res !== null && (req.body.noteId !== res.id && (req.body.title !== 'Untitled' && res.notebookId === req.body.notebookId))) {
+                if(res !== null && (req.body.noteId !== res.id && req.body.title !== 'Untitled')) {
                     return Promise.reject('Title must be unique inside current notebook or left as Untitled')
                 }
             })
