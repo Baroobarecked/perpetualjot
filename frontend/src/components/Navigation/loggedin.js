@@ -32,7 +32,9 @@ function LoggedIn ({user}) {
     if(notes) {
         noteList = [...notes.notes]
         notebookList = notebookList.filter(notebook => notebook.title.toLowerCase().includes(searchValue.toLowerCase()))
-        noteList = noteList.filter(note => note.title.toLowerCase().includes(searchValue.toLowerCase()))
+        noteList = noteList.filter(note => {
+            return (note.title.toLowerCase().includes(searchValue.toLowerCase()) || note.content.toLowerCase().includes(searchValue.toLowerCase()))
+        })
     }
 
     const style = () => {
