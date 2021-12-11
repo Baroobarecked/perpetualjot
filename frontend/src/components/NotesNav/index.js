@@ -38,7 +38,7 @@ function NotesNav () {
                     dispatch(globalNotesActions.editGlobalNotes(res.note))
                 }}>Add Note</button>}
             </div>
-            {globalNotebook && noteList.map(note => {
+            {noteList.map(note => {
                 return (
                     <div key={note.id} className='notecard'>
                         <button onClick={() => {

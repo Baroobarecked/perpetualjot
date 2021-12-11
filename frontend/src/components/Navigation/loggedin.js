@@ -105,6 +105,15 @@ function LoggedIn ({user}) {
                     }
                     }}></input>
             </div>
+            <div>
+                <button onClick={async () => {
+                    dispatch(globalNoteActions.initResetGlobalNote());
+                    dispatch(globalNotebookActions.initResetGlobalNotebook());
+                    dispatch(noteActions.getNoteArray(user.id));
+                    setNoteToggle(false);
+                    setNotebookToggle(false);
+                }}>Home</button>
+            </div>
             <div className='toggle'>
                 {!notebookToggle && noStyle()}
                 {notebookToggle && style()}
@@ -116,7 +125,6 @@ function LoggedIn ({user}) {
                             dispatch(globalNoteActions.initResetGlobalNote());
                             dispatch(globalNotebookActions.initResetGlobalNotebook());
                             await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
-                            // setGlobalNotebook(notebook);
                             return dispatch(noteActions.getNoteArrayFiltered(notebook.id));
                         }}><span className='textinbutton'>{notebook.title}</span><DeleteNotebookModal notebook={notebook} /></button>
                     )
@@ -135,7 +143,6 @@ function LoggedIn ({user}) {
                                 const notebook2 = notebooks[note.notebookId];
                                 console.log(notebook2)
                                 await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook2));
-                                console.log('hello')
                             }
                             dispatch(globalNoteActions.setNewGlobalNote(note));
                             return dispatch(noteActions.getNoteArrayFiltered(note.notebookId));
