@@ -33,8 +33,7 @@ function NotesNav () {
                         notebookId: globalNotebook.id,
                         title: 'Untitled',
                         content: 'Place note here',
-                    }))
-                    console.log(res)
+                    }));
                     dispatch(globalNotesActions.editGlobalNotes(res.note))
                 }}>Add Note</button>}
             </div>
@@ -42,10 +41,13 @@ function NotesNav () {
                 return (
                     <div key={note.id} className='notecard'>
                         <button onClick={() => {
+                            dispatch(globalNotebookActions.initResetGlobalNotebook());
                             if(!globalNotebook || globalNotebook.id !== note.notebookId) {
                                 const notebook = notebooks[note.notebookId];
                                 dispatch(globalNotebookActions.setNewGlobalNotebook(notebook));
                             }
+
+                            dispatch(globalNoteActions.initResetGlobalNote());
                             dispatch(globalNoteActions.setNewGlobalNote(note));
                             }}><span className='textinbutton'>{note.title}</span>{globalNote && 
                                 globalNote.id === note.id ?

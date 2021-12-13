@@ -111,7 +111,7 @@ function LoggedIn ({user}) {
                 <button onClick={async () => {
                     dispatch(globalNoteActions.initResetGlobalNote());
                     dispatch(globalNotebookActions.initResetGlobalNotebook());
-                    dispatch(noteActions.getNoteArray(user.id));
+                    await dispatch(noteActions.getNoteArray(user.id));
                     setNoteToggle(false);
                     setNotebookToggle(false);
                 }}>Home</button>
