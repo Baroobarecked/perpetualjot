@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import * as noteActions from "../../store/notes";
 import * as globalNoteActions from "../../store/globalNote";
+import * as globalNotebookActions from "../../store/globalNotebook";
 import * as globalNotesActions from "../../store/globalNotesObj";
 
 import './DeleteNote.css';
@@ -14,7 +15,8 @@ function DeleteNotePage({note, notebook}) {
         e.preventDefault();
         await dispatch(noteActions.deleteOldNote({ noteId: note.id}));
         await dispatch(globalNoteActions.initResetGlobalNote());
-        await dispatch(noteActions.getNoteArrayFiltered(notebook.id));
+        await dispatch(globalNotebookActions.initResetGlobalNotebook());
+        await dispatch(noteActions.getNoteArray(note.userId));
         await dispatch(globalNotesActions.deleteGlobalNotes(note));
     }
 
