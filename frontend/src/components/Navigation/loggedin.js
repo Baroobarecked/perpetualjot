@@ -140,10 +140,8 @@ function LoggedIn ({user}) {
                         <button className='notebooks' key={`${note.id}-${note.title}`} value={note.notebookId} 
                         onClick={async () => {
                             dispatch(globalNoteActions.initResetGlobalNote());
-                            console.log(note)
                             if(!globalNotebook || globalNotebook.id !== note.notebookId) {
                                 const notebook2 = notebooks[note.notebookId];
-                                console.log(notebook2)
                                 await dispatch(globalNotebookActions.setNewGlobalNotebook(notebook2));
                             }
                             dispatch(globalNoteActions.setNewGlobalNote(note));

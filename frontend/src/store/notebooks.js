@@ -60,7 +60,6 @@ export const editNotebook = notebook => async (dispatch) => {
     });
 
     const updatedNotebook = await res.json();
-    console.log(updatedNotebook)
 
     if(updatedNotebook) {
         const result = await dispatch(addNotebook(updatedNotebook));
@@ -74,7 +73,6 @@ export const deleteOldNotebook = (notebookId) => async dispatch => {
         method: 'DELETE',
         body: JSON.stringify(notebookId),
     });
-    console.log(notebookId)
     await dispatch(deleteNotebook(notebookId));
 };
 

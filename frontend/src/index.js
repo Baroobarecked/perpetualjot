@@ -15,7 +15,6 @@ import * as notebookActions from './store/notebooks';
 import * as noteActions from './store/notes';
 
 const store = configureStore();
-//console.log(sessionActions)
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
 

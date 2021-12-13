@@ -52,7 +52,6 @@ export const addNewNote = note => async (dispatch) => {
 
 export const editNote = note => async (dispatch) => {
     const { title, noteId, content, notebookId } = note;
-    console.log(note)
     const res = await csrfFetch(`/api/notes`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -64,7 +63,6 @@ export const editNote = note => async (dispatch) => {
     });
 
     const updatedNote = await res.json();
-    // console.log(updatedNote)
 
     if(updatedNote) {
         const result = await dispatch(addNote(updatedNote));
@@ -78,7 +76,6 @@ export const deleteOldNote = (noteId) => async dispatch => {
         method: 'DELETE',
         body: JSON.stringify(noteId),
     });
-    console.log(noteId)
     await dispatch(deleteNote(noteId));
 };
 

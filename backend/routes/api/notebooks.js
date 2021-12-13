@@ -14,13 +14,11 @@ const validateUserInput = [
       .notEmpty()
       .withMessage('Please provide a title')
       .custom((title, { req }) => {
-        //   console.log(req)
           return Notebook.findOne({ where: { title : {
                     [Sequelize.Op.iLike]: title
                 }
             }})
             .then((res) => {
-                console.log(res, req.body)
                 if(res !== null && req.body.notebookId !== res.id) {
                     return Promise.reject('Title must be unique')
                 }
@@ -44,7 +42,6 @@ router.post('/', requireAuth, validateUserInput, asyncHandler(async (req, res) =
 router.put('/', requireAuth, validateUserInput, asyncHandler(async (req, res) => {
 
     const { title, notebookId } = req.body;
-    console.log(req.body)
 
     const notebook = await Notebook.findByPk(notebookId);
 

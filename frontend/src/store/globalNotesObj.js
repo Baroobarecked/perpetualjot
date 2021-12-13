@@ -18,7 +18,6 @@ const removeGlobalNote = (note) => ({
 
 //thunks
 export const setGlobalNotes = (notes) => async (dispatch) => {
-    console.log(notes)
     const result = await dispatch(addGlobalNotes(notes.notes));
     return result;
 };
@@ -27,9 +26,7 @@ export const editGlobalNotes = (note) => async (dispatch) => {
     return result;
 };
 export const editGlobalNotesArray = (noteArray) => async (dispatch) => {
-    console.log(noteArray)
     noteArray.notes.forEach(async note => {
-        console.log(note)
         await dispatch(removeGlobalNote(note));
     })
 };
@@ -50,8 +47,6 @@ const globalNotesObjReducer = (state = null, action) => {
             arrayNotes = newState.notes;
             const index = arrayNotes.findIndex(note => note.id === action.note.id);
             if(index !== -1) {
-                console.log(index)
-                console.log(action.note)
                 arrayNotes[index] = action.note;
             } else {
                 arrayNotes.push(action.note)
@@ -62,7 +57,6 @@ const globalNotesObjReducer = (state = null, action) => {
             newState = {...state}
             arrayNotes = newState.notes;
             const deleteIndex = arrayNotes.findIndex(note => note.id === action.note.id);
-            console.log(deleteIndex, arrayNotes, action.note)
             arrayNotes.splice(deleteIndex, 1)
             newState = {notes: [...arrayNotes]};
             return newState

@@ -6,7 +6,6 @@ import './SignupFormPage.css';
 
 function SignupFormModal({toggle = false}) {
   const [showModal, setShowModal] = useState(false);
-  console.log(toggle)
   return (
     <>
       {toggle && <button id='getting_started' onClick={() => setShowModal(true)}>Get Started</button>}
